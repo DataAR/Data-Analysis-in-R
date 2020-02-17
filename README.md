@@ -12,7 +12,7 @@ This work is licensed under the XXX License.
 
 This repository contains the necessary files to do several exercises and examples that can be found in the book. To download them, one can simply click on *Click or download* and then in *Download ZIP*. This will download the full repository except file *flights.csv*, which must be accessed separately due to its large size. To do so, simply enter the datasets folder, click on *flights.csv* and then click *download*. This will open the file in a browser window from which it can be downloaded (the process may take several minutes).
 
-The files are used in the following exercises:
+The files are used in the following exercises and examples:
 
 1. File *easy.csv*. Used in Exercise 3.2.
 2. File *hard.csv*. Used in Exercise 3.2.

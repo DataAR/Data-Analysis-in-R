@@ -19,3 +19,6 @@ The files are used in the following exercises and examples:
 3. File *flights.json*. Used in Exercise 3.3.
 4. File *flights.xlsx*. Used in Exercise 3.3.
 5. File *flights.csv*. Used in Section 3.3.3 Practical examples 
+6. File *RottenTomatoes.htm*. Used in Exercise 3.7.
+7. File *GoodReads.mhtml*. Used in Exercise 3.8.
+8. File *NBA 19_20.mhtml*. Used in ???. 

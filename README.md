@@ -12,13 +12,21 @@ This work is licensed under the XXX License.
 
 This repository contains the necessary files to do several exercises and examples that can be found in the book. To download them, one can simply click on *Clone or download* and then on *Download ZIP*. This will download the full repository except file *flights.csv*, which must be accessed separately due to its large size. To do so, simply enter the datasets folder, click on *flights.csv* and then click on *download*. This will open the file in a browser window from which it can be downloaded (the process may take several minutes).
 
-The files are used in the following exercises and examples:
+Folder *codes* contains an R markdown file with all code snippets in the book:
+
+1. File *Codes R book.Rmd*. 
+2. File *Codes-R-book.html* and folder files.
+
+Folder *datasets* contains files used in exercises and examples (sections 3.2 and 3.3):
 
 1. File *easy.csv*. Used in Exercise 3.2.
 2. File *hard.csv*. Used in Exercise 3.2.
 3. File *flights.json*. Used in Exercise 3.3.
 4. File *flights.xlsx*. Used in Exercise 3.3.
 5. File *flights.csv*. Used in Section 3.3.3 Practical examples 
+
+Folder *webs* contains website files for the scrapping exercises (section 3.2)
+
 6. File *RottenTomatoes.htm*. Used in Exercise 3.7.
 7. File *GoodReads.mhtml*. Used in Exercise 3.8.
 8. File *NBA 19_20.mhtml*. Used in ???. 

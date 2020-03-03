@@ -1,0 +1,2837 @@
+---
+title: "Introduction to Data Analysis with R"
+author: Alfonso Zamora Saiz, Carlos Quesada González, Lluís Hurtado Gil and Diego
+  Mondéjar Ruiz
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+---
+
+Each chunk represents a code window in the book. Some chunks have been commented (adding # to all the lines) for several reasons making the whole file runnable. The first line of these chunks is to clarify why.
+
+# Chapter 1. Introduction
+
+# Chapter 2. Introduction to R
+
+## 2.1 Programming Languages and R
+
+### 2.1.1 Some remarks on the history of programming languages
+
+### 2.1.2 Paradigms and structure
+
+### 2.1.3 The R language
+
+### 2.1.4 RStudio
+
+```{r}
+3 + 4
+```
+
+### 2.1.5 First Steps
+
+```{r}
+for (i in 1 : 3) { 
+  print(2 * i)
+}
+```
+
+```{r}
+# temperatures does not exixt
+# names(temperatures) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+```
+
+```{r}
+help(matrix) 
+?matrix
+```
+
+```{r}
+help(package="ggplot2")
+```
+
+```{r}
+help(diamonds, package="ggplot2")
+```
+
+```{r}
+demo(graphics)
+```
+
+```{r}
+# only to really install it
+# install.packages("jsonlite")
+```
+
+```{r}
+library(jsonlite)
+```
+
+```{r}
+installed.packages()
+```
+
+```{r}
+# only if you really want
+# update.packages(ask=FALSE)
+```
+
+```{r}
+# Script for printing a sentence and a number
+sentence <- "The price is" # defines the sentence 
+price <- 249.99 # defines the price 
+print(paste(sentence, price)) # prints both
+```
+
+Script for printing a sentence and a number
+```{r}
+sentence <- "The price is" # defines the sentence 
+price <- 249.99 # defines the price 
+print(paste(sentence, price)) # prints both
+```
+
+## 2.2 Data Structures
+
+### 2.2.1 Variables and basic arithmetic
+
+```{r}
+3
+```
+
+```{r}
+3 + 4
+```
+
+```{r}
+3 - 5
+```
+
+```{r}
+2 * 6
+```
+
+```{r}
+5 / 3
+```
+
+```{r}
+15 %% 2
+```
+
+```{r}
+15 %/% 2
+```
+
+```{r}
+x <- 4
+```
+
+```{r}
+x
+```
+
+```{r}
+y <- 5
+```
+
+```{r}
+z <- x + y 
+z
+```
+
+```{r}
+number.decimal <- 4.3
+class(number.decimal)
+```
+
+```{r}
+2.73e4
+```
+
+```{r}
+1 / 2.73e4
+```
+
+```{r}
+word <- "Hello"
+class(word)
+```
+
+```{r}
+yes.no <- TRUE
+class(yes.no)
+```
+
+```{r}
+TRUE + TRUE
+```
+
+```{r}
+TRUE + FALSE
+```
+
+```{r}
+TRUE * FALSE
+```
+
+```{r}
+FALSE * FALSE
+```
+
+```{r}
+null.object <- NULL
+null.object
+```
+
+```{r}
+missing <- NA
+missing
+```
+
+```{r}
+1 + NA
+```
+
+```{r}
+TRUE - NA
+```
+
+### 2.2.2 Vectors
+
+```{r}
+vector.numbers <- c(1, 2, 3, 4)
+vector.numbers
+```
+
+```{r}
+length(vector.numbers)
+```
+
+```{r}
+vector.characters <- c("Today", "Yesterday", "Tomorrow")
+vector.characters
+```
+
+```{r}
+vector.logicals <- c(TRUE , FALSE)
+vector.logicals
+```
+
+```{r}
+c(NA, 3, 4)
+```
+
+```{r}
+4 : 12
+```
+
+```{r}
+rep(c(3, -1, 0.5), times=3)
+```
+
+```{r}
+rep(c(3, -1, 0.5), each=3)
+```
+
+```{r}
+rep(c(3, -1, 0.5), times=c(2, 1, 3))
+```
+
+```{r}
+rep(c(3, -1, 0.5), length.out=8)
+```
+
+```{r}
+seq(0, 10, 2.5)
+```
+
+```{r}
+temperatures <- c(28, 29, 27, 27, 30)
+names(temperatures) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+temperatures
+```
+
+```{r}
+rains <- c(0, 5, 6, 0, 2)
+names(rains) <- names(temperatures)
+```
+
+```{r}
+days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(rains) <- days
+rains
+```
+
+```{r}
+temperatures + 273.15
+```
+
+```{r}
+temperatures * 1.8 + 32
+```
+
+```{r}
+rains / (temperatures + 273.15)
+```
+
+```{r}
+total.rains <- sum(rains)
+total.rains
+```
+
+```{r}
+rains[2]
+```
+
+```{r}
+rains.beginning.week <- rains[c(1, 2)]
+rains.beginning.week
+```
+
+```{r}
+temperature.midweek <- temperatures[2 : 4]
+temperature.midweek
+```
+
+```{r}
+temperature.thursday <- temperatures["Thursday"]
+temperature.thursday
+```
+
+```{r}
+rains.beginning.week <- rains[c("Monday", "Tuesday")]
+rains.beginning.week
+```
+
+```{r}
+6 > 3
+```
+
+```{r}
+4 == 5
+```
+
+```{r}
+rains > 0
+```
+
+```{r}
+3 == 4 & 3 == 3
+```
+
+```{r}
+3 == 4 | 3 == 3
+```
+
+```{r}
+3 < 5 & 4 > 2
+```
+
+```{r}
+TRUE & TRUE & FALSE
+```
+
+```{r}
+xor(3 > 2, FALSE)
+```
+
+```{r}
+xor(TRUE , 4 == 4)
+```
+
+```{r}
+not.rainy.days <- rains == 0
+not.rainy.days
+```
+
+```{r}
+hot.days <- temperatures >= 29
+hot.days
+```
+
+```{r}
+rains[hot.days]
+```
+
+```{r}
+all(temperatures >= 28)
+```
+
+```{r}
+any(temperatures == 30)
+```
+
+```{r}
+which(temperatures == 27)
+```
+
+```{r}
+some.vector <- c(3, 7, 9, 6, 2, 8)
+order(some.vector)
+```
+
+```{r}
+some.vector[order(some.vector)]
+```
+
+```{r}
+sum(temperatures)
+```
+
+```{r}
+max(temperatures)
+```
+
+```{r}
+min(temperatures)
+```
+
+```{r}
+range(temperatures)
+```
+
+```{r}
+which(temperatures == max(temperatures))
+```
+
+### 2.2.3 Matrices
+
+```{r}
+matrix(data=NA, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL)
+```
+
+```{r}
+matrix(1 : 9, byrow=TRUE, nrow=3)
+```
+
+```{r}
+matrix(1 : 15, nrow=2)
+```
+
+```{r}
+matrix(c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"), nrow=3, byrow=TRUE)
+```
+
+```{r}
+matrix(c(TRUE, TRUE, FALSE, TRUE), ncol=2)
+```
+
+```{r}
+climate <- matrix(c(temperatures , rains), byrow=TRUE, nrow=2)
+rownames(climate) <- c("Temperatures", "Rains")
+colnames(climate) <- days
+climate
+```
+
+```{r}
+dim(climate)
+```
+
+```{r}
+Winds <- c(30, 25, 22, 24, 18)
+rbind(climate, Winds)
+```
+
+```{r}
+total.climate <- rbind(climate, Winds)
+totals <- rowSums(climate)
+cbind(climate, totals)
+```
+
+```{r}
+total.climate[2, 3]
+```
+
+```{r}
+total.climate[, 4]
+```
+
+```{r}
+total.climate[1, ]
+```
+
+```{r}
+total.climate[, "Friday"]
+```
+
+```{r}
+total.climate["Rains", ]
+```
+
+```{r}
+ave.temperature <- mean(total.climate[1, ])
+ave.temperature
+```
+
+```{r}
+climate * 3
+```
+
+```{r}
+climate ^ 2
+```
+
+```{r}
+climate[2, ] / climate[1, ]
+```
+
+### 2.2.4 Factors
+
+```{r}
+sizes <- c("Small", "Big", "Big", "Medium", "Medium", "Small", "Medium", "Small", "Small")
+sizes
+```
+
+```{r}
+summary(sizes)
+```
+
+```{r}
+factor.sizes <- factor(sizes)
+factor.sizes
+```
+
+```{r}
+summary(factor.sizes)
+```
+
+```{r}
+levels(factor.sizes)
+```
+
+```{r}
+my.colors <- c("Orange", "Red", "Red", "Yellow", "Blue", "Green")
+factor.colors <- factor(my.colors)
+factor.colors
+```
+
+```{r}
+sizes2 <- c("Small", "Big", "Big", "Medium", "Medium", "Small", "Medium", "Small", "Small")
+factor.sizes2 <- factor(sizes , ordered=TRUE, levels=c("Small", "Medium", "Big"))
+factor.sizes2
+```
+
+```{r}
+survey.vector <- c("M", "F", "F", "M", "M", "F", "M", "M")
+factor.survey.vector <- factor(survey.vector)
+factor.survey.vector
+```
+
+```{r}
+summary(factor.survey.vector)
+```
+
+```{r}
+levels(factor.survey.vector) <- c("Female", "Male")
+factor.survey.vector
+```
+
+```{r}
+factor.survey.vector[1] < factor.survey.vector[2]
+```
+
+```{r}
+small <- factor.sizes2[1]
+medium <- factor.sizes2[4]
+big <- factor.sizes2[2]
+small < medium
+```
+
+```{r}
+small < big
+```
+
+```{r}
+medium > big
+```
+
+```{r}
+factor.sizes2[3] < factor.sizes2[5]
+```
+
+### 2.2.5 Data Frames
+
+```{r}
+?datasets
+library(help="datasets")
+```
+
+```{r}
+data()
+```
+
+```{r}
+? OrchardSprays
+OrchardSprays
+```
+
+```{r}
+head(OrchardSprays)
+```
+
+```{r}
+str(OrchardSprays)
+```
+
+```{r}
+name <- c("Alfonso", "Carlos", "Lluis", "Diego")
+last.name <- c("Zamora", "Quesada", "Hurtado", "Mondejar")
+second.last.name <- c("Saiz", "Gonzalez", "Gil", "Ruiz")
+age <- c(33, 32, 30, 37)
+phd <- c("math", "math", "physics", "math")
+office <- c(4, 14, 6, 8)
+from.madrid <- c(FALSE, TRUE, FALSE, TRUE)
+professors <- data.frame(name, last.name, second.last.name, age, phd, office, from.madrid)
+str(professors)
+```
+
+```{r}
+professors[2, 3]
+```
+
+```{r}
+professors[1, ]
+```
+
+```{r}
+professors[, 2]
+```
+
+```{r}
+professors[1 : 2, ]
+```
+
+```{r}
+professors$second.last.name
+```
+
+```{r}
+professors$office[3]
+```
+
+```{r}
+madrileans <- professors$from.madrid
+professors[madrileans, ]
+```
+
+```{r}
+subset(professors, subset=age < 31)
+```
+
+```{r}
+subset(professors, subset=phd == "math")
+```
+
+```{r}
+positions <- order(professors$age)
+professors[positions, ]
+```
+
+```{r}
+mydata.as.matrix <- matrix(1 : 9, nrow=3)
+mydata.as.matrix
+```
+
+```{r}
+mydata.as.data.frame <- as.data.frame(mydata.as.matrix)
+mydata.as.data.frame
+```
+
+```{r}
+mydata.as.data.frame$V1
+```
+
+```{r}
+new.list <- list(days , factor.sizes , climate)
+new.list
+```
+
+```{r}
+new.list[1]
+```
+
+```{r}
+new.list[[1]][2]
+```
+
+```{r}
+new.list[[3]][1, 3 : 4]
+```
+
+```{r}
+new.list <- list(the.days=days, the.factors=factor.sizes, the.data=climate)
+new.list
+```
+
+```{r}
+new.list$the.factors
+```
+
+```{r}
+new.list$the.data[2, 5]
+```
+
+```{r}
+new.list2 <- c(new.list , today="October 4")
+str(new.list2)
+```
+
+## 2.3 Control Structures
+
+### 2.3.1 Conditionals
+
+```{r}
+# Syntax
+# if ("condition is satisfied") {
+#   "do something"
+# }
+```
+
+```{r}
+x <- 3
+if (x > 0) {
+  print("Positive")
+}
+```
+
+```{r}
+x <- -5
+if(x > 0){
+  print("Positive")
+}
+```
+
+```{r}
+# Syntax
+# if ("condition is satisfied"){
+#   "do something"
+# } else {
+#   "otherwise do something else"
+# }
+```
+
+```{r}
+x <- -8
+if (x > 0) {
+  print("Positive")
+} else {
+  print("Negative")
+}
+```
+
+```{r}
+x <- 6
+if (x > 0) {
+  print("Positive")
+} else {
+  print("Negative")
+}
+```
+
+```{r}
+x <- 0
+if (x > 0) {
+  print("Positive")
+} else {
+  print("Negative")
+}
+```
+
+```{r}
+x <- 0
+if (x > 0) {
+  print("Positive")
+} else if (x < 0) {
+  print("Negative")
+} else {
+  print("Zero")
+}
+```
+
+```{r}
+x <- 9
+ifelse(x > 0, "Positive", "Negative")
+```
+
+```{r}
+(1 : 10) < 5
+```
+
+```{r}
+ifelse((1 : 10) < 5, "Fail", "Pass")
+```
+
+### 2.3.2 Loops
+
+```{r}
+# Syntax
+# for ("counter" in "vector of indices") {
+#   "do something"
+# }
+```
+
+```{r}
+for (i in 1 : 10) {
+  print(i)
+}
+```
+
+```{r}
+i
+```
+
+```{r}
+v <- c()
+v
+```
+
+```{r}
+s <- 0
+for (i in 1 : 10) {
+  s <- s + i
+  v[i] <- s
+}
+v
+```
+
+```{r}
+odd <- 2 * (1 : 10) - 1
+for (i in odd) {
+  print(i)
+}
+```
+
+```{r}
+for (i in c(TRUE , FALSE)) {
+print(TRUE == i)
+}
+```
+
+```{r}
+for (i in 1 : 10) {
+  if (i < 5) {
+    print("Fail")
+  } else {
+    print("Pass")
+  }
+}
+```
+
+```{r}
+# Syntax
+# while ("condition holds") {
+#   "do something"
+# }
+```
+
+```{r}
+i <- 0
+while (i < 10) {
+  print(c(i,"is less than 10"))
+  i <- i + 1
+}
+```
+
+```{r}
+i
+```
+
+```{r}
+# infinite loop!!
+# j <- 1
+# while (j < 5) {
+#   print(c(j, "is less than 5"))
+# }
+```
+
+## 2.4 Functions and Operators
+
+```{r}
+mean(c(2, 5, 7))
+```
+
+```{r}
+mean(matrix(1 : 4))
+```
+
+```{r}
+sum(matrix(1 : 4))
+```
+
+```{r}
+sqrt(2)
+```
+
+```{r}
+log(34)
+```
+
+```{r}
+exp(0)
+```
+
+```{r}
+cos(0)
+```
+
+```{r}
+is.logical(3 != 3)
+```
+
+```{r}
+matrix(3 : 8, nrow=3)
+```
+
+```{r}
+funtion.name <- function(argument1, argument2,...) {
+  "body function"
+}
+```
+
+```{r}
+f <- function(x) {
+  x / (1 - x) # the output is the evaluation of last line
+}
+```
+
+```{r}
+f <- function(x) x / (1 - x)
+```
+
+```{r}
+f <- function(x) {
+  return(x / (1 - x))
+}
+```
+
+```{r}
+f(2)
+```
+
+```{r}
+y <- 4
+f(y)
+```
+
+```{r}
+f(2 * y)
+```
+
+```{r}
+g <- function(x,y) {
+  x ^ 2 - y / 5
+}
+```
+
+```{r}
+g(1, 2)
+```
+
+```{r}
+g(2, 1)
+```
+
+```{r}
+exp(1 : 10)
+f(c(1, 4, 7))
+```
+
+```{r}
+funtion.name <- function(name.argument1=default.value1, name.argument2=default.value2,...) {
+  "body function"
+}
+```
+
+```{r}
+mat.vec <- function(a, b=2, flag=FALSE){
+  if (flag) {
+    matrix(1 : a, nrow=b)
+  } else {
+    1 : a
+  }
+}
+```
+
+```{r}
+mat.vec(5)
+```
+
+```{r}
+mat.vec(6, 3, TRUE)
+```
+
+```{r}
+mat.vec(flag=TRUE , a=6, b=3)
+```
+
+```{r}
+mat.vec(a=7, b=4)
+```
+
+```{r}
+mat.vec(a=7, flag=TRUE)
+```
+
+```{r}
+vector.selector <- function(v, pos=1){
+  if (is.vector(v)) {
+    return(v[pos])
+  } else {
+    stop("Variable v is not a vector")
+  }
+}
+```
+
+```{r}
+vector.selector(3 : 8)
+```
+
+```{r}
+vector.selector(c(1, 4, 5, 8, 2, 4, 3, 5), pos=6)
+```
+
+```{r}
+# Error
+# vector.selector(matrix(1 : 9))
+```
+
+```{r}
+items <- function(x) list(len=length(x),total=sum(x),
+mean=mean(x))
+```
+
+```{r}
+data <- 1 : 10
+result <- items(data)
+result
+```
+
+```{r}
+names(result)
+```
+
+```{r}
+result$len
+```
+
+```{r}
+result$tot
+```
+
+```{r}
+result$mean
+```
+
+```{r}
+log
+```
+
+```{r}
+mean
+```
+
+```{r}
+salutation <- function(x) print("Hello")
+# Note that this output does not depend on the value of x
+output <- sapply(1 : 5, salutation)
+```
+
+```{r}
+output <- sapply(1 : 5, function(x) print("Hello"))
+```
+
+```{r}
+lapply(cars ,mean)
+```
+
+```{r}
+sapply(cars , mean)
+```
+
+### 2.4.1 Exercises
+
+```{r}
+g <- function(x, y) x ^ 2 - y / 5
+```
+
+
+# Chapter 3. Data Bases in R
+
+## 3.1 Data sources, importing and exporting
+
+```{r}
+# The file myfilewithdata.csv does not exist
+# our.table <- read.csv("myfilewithdata.csv", header=TRUE, sep=";", dec=".")
+```
+
+```{r}
+# The table our.table does not exist
+# write.csv(our.table , "filetosave.csv", col.names=FALSE, row.names=TRUE , sep=";", dec=".")
+```
+
+```{r}
+# The file ourjsonfile.json does not exist
+# library(jsonlite)
+# jsonastable <- as.data.frame(fromJSON("ourjsonfile.json"))
+```
+
+```{r}
+# The file file.xlsx does not exist
+# library(readxl)
+# data <- read_excel("file.xlsx", col_names=TRUE, col_types=c("numeric", "numeric"), sheet=2)
+```
+
+### 3.1.1 Exercises
+
+## 3.2 Scraping
+
+### 3.2.1 Provided Databases
+
+```{r}
+library(mlbench)
+data(Glass)
+```
+
+### 3.2.2 APIs
+
+```{r}
+library(jsonlite)
+```
+
+```{r}
+url <- "https://opensky-network.org/api/states/all"
+flights <- as.data.frame(fromJSON(URLencode(url))) ## could need the curl package
+```
+
+```{r}
+library(jsonlite)
+sport.url <- "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=4328&s=1415"
+sports <- as.data.frame(fromJSON(URLencode(sport.url)))
+```
+
+```{r}
+leagues.url <- "https://www.thesportsdb.com/api/v1/json/1/search_all_leagues.php?c=Spain"
+leagues <- as.data.frame(fromJSON(URLencode(leagues.url)))
+```
+
+```{r}
+sport.url <- "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=4335&s=1718"
+sports <- as.data.frame(fromJSON(URLencode(sport.url)))
+```
+
+```{r}
+matches.url <- "https://www.thesportsdb.com/api/v1/json/1/latestsoccer.php"
+# Error
+# matches <- as.data.frame(fromJSON(URLencode(matches.url)))
+```
+
+```{r}
+matches <- fromJSON(URLencode(matches.url))
+matches
+```
+
+```{r}
+# Run this code while matches are being played
+# live.matches <- as.data.frame(fromJSON(URLencode(matches.url))$teams$Match)
+# live.matches
+```
+
+```{r}
+library(data.table)
+quandl.url <- "https://www.quandl.com/api/v3/datasets/WIKI/GOOG.csv?start_date=2015-01-01"
+#fread(URLencode(quandl.url))
+```
+
+### 3.2.3 Web Scraping
+
+```{r}
+library(rvest)
+```
+
+```{r}
+nbagames <- read_html("https://www.thesportsdb.com/season.php?l=4387&s=1920")
+```
+
+```{r}
+nbagames
+```
+
+```{r}
+games <- html_nodes(nbagames,"td")
+```
+
+```{r}
+games <- html_text(html_nodes(nbagames, "td"))
+```
+
+```{r}
+games
+```
+
+```{r}
+goodreadsurl <-"https://www.goodreads.com/list/show/7.Best_Books_of_the_21st_Century"
+goodreads <- read_html(goodreadsurl)
+books <- html_text(html_nodes(goodreads, "span"))
+```
+
+```{r}
+books
+```
+
+```{r}
+goodreads <- read_html(goodreadsurl)
+books <- html_text(html_nodes(goodreads, ".bookTitle span"))
+```
+
+```{r}
+books
+```
+
+```{r}
+goodreads <- read_html(goodreadsurl)
+book <- html_text(html_nodes(goodreads, ".bookTitle span"))
+author <- html_text(html_nodes(goodreads, ".authorName span"))
+rating <- html_text(html_nodes(goodreads, ".minirating"))
+topbooks <- data.frame(book, author, rating)
+```
+
+### 3.2.4 Exercises
+
+## 3.3 Data preprocessing
+
+### 3.3.1 Data Tables
+
+```{r}
+library(data.table)
+example <- data.frame(info1 = c(1, 2), info2 = c("a", "b"))
+row.names(example) <- c("line1", "line2")
+setDT(example , keep.rownames=T)
+example
+```
+
+```{r}
+class(example)
+```
+
+```{r}
+DT.swiss <- copy(swiss)
+setDT(DT.swiss , keep.rownames=T)
+DT.swiss[order(rn)]
+```
+
+```{r}
+DT.swiss[order(Education , -Agriculture)]
+```
+
+```{r}
+DT.swiss[2 : 3, 7]
+```
+
+```{r}
+DT.swiss[, "Infant.Mortality"]
+```
+
+```{r}
+DT.swiss[, !"Fertility"]
+```
+
+```{r}
+DT.swiss[, !c("Agriculture", "Catholic")]
+```
+
+```{r}
+DT.swiss[Education == 7]
+```
+
+```{r}
+mean.values <- sapply(DT.swiss[, -1], mean)
+DT.swiss[Agriculture > mean.values[2] & Education > mean.values[4]]
+```
+
+```{r}
+DT.swiss[Fertility < 50, mean(Education)]
+```
+
+```{r}
+DT.swiss[Education < 10, length(Education)]
+```
+
+```{r}
+DT.swiss[, mean(Fertility), by=Education]
+```
+
+```{r}
+DT.swiss[order(-Education), mean(Fertility), by=Education]
+```
+
+```{r}
+DT.swiss[order(Education), .N, by=Education]
+```
+
+```{r}
+DT.swiss[order(Education), .(.N, mean(Fertility),
+mean(Catholic)), by=Education]
+```
+
+```{r}
+DT.swiss[, .N, .(Education < 15, Fertility > 60)]
+```
+
+```{r}
+setkey(DT.swiss , Education)
+```
+
+```{r}
+DT.swiss
+```
+
+```{r}
+DT.swiss[.(3)]
+```
+
+```{r}
+DT.swiss[.(c(3, 5))]
+```
+
+```{r}
+DT.swiss[.(1 : 3), !c("Examination", "Infant.Mortality")]
+```
+
+```{r}
+DT.swiss[.(5 : 8), mean(Fertility), by=Education]
+```
+
+```{r}
+DT.swiss[, c("new.col.1", "new.col.2"):=list(1 : 47, 51 : 97)]
+DT.swiss
+```
+
+```{r}
+DT.swiss[, c("new.col.1", "new.col.2")
+:=list(101 : 147, 151 : 197)]
+```
+
+```{r}
+DT.swiss[, c("new.col.1", "new.col.2"):=list(NULL , NULL)]
+```
+
+### 3.3.2 Merging
+
+```{r}
+dataset.1 <- data.table(city=c("Large", "Medium"), population=c(1000000, 250000), km2=c(20, 7))
+dataset.2 <- data.table(city=c("Small"),
+population=c(50000), km2=c(1))
+dataset.final <- rbind(dataset.1, dataset.2)
+dataset.final
+```
+
+```{r}
+dataset.1 <- data.table(city=c("Large", "Medium", "Small"), population=c(1000000, 250000, 50000))
+dataset.2 <- data.table(km2=c(20, 7, 1))
+dataset.final <- cbind(dataset.1, dataset.2)
+dataset.final
+```
+
+```{r}
+dataset.1 <- data.table(city=c("city.1", "city.2", "city.3", "city.4", "city.5", "city.6"),
+population=c(10000, 20000, 100000, 5000, 30000, 65000),
+km2=c(1, 0.5, 0.9, 2, 1.2, 3))
+dataset.2 <- data.table(city=c("city.1", "city.2", "city.3", "city.7"),
+airport=c(FALSE, FALSE, TRUE, TRUE))
+dataset.1
+```
+
+```{r}
+dataset.2
+```
+
+```{r}
+merge(dataset.1, dataset.2)
+```
+
+```{r}
+merge(dataset.1, dataset.2, all = TRUE)
+```
+
+```{r}
+merge(dataset.1, dataset.2, all.x = TRUE)
+```
+
+```{r}
+merge(dataset.1, dataset.2, all.y = TRUE)
+```
+
+### 3.3.3 Practical examples
+
+```{r}
+library(rvest)
+library(data.table)
+goodreads <- read_html(goodreadsurl)
+book <- html_text(html_nodes(goodreads , ".bookTitle span"))
+author <- html_text(html_nodes(goodreads , ".authorName span"))
+rating <- html_text(html_nodes(goodreads , ".minirating"))
+topbooks <- data.frame(book , author , rating)
+```
+
+```{r}
+topbooks$rating <- as.numeric(substr(topbooks$rating ,1,4))
+```
+
+```{r}
+library(rvest)
+library(data.table)
+nbagames <- read_html("https://www.thesportsdb.com/season.php?l=4387&s=1920")
+games <- html_text(html_nodes(nbagames , "td"))
+```
+
+```{r}
+games <- games[!games==""]
+```
+
+```{r}
+games <- games[!grepl("\n",games)]
+```
+
+```{r}
+games1920 <- as.data.table(matrix(games , ncol=4, byrow=T))
+colnames(games1920) <- c("Date","TeamA","Result","TeamB")
+```
+
+```{r}
+games1920[, tstrsplit(Result , " ")]
+```
+
+```{r}
+games1920[, c("PointsA", "PointsB"):=tstrsplit(Result , " ", keep=c(1,3))]
+games1920$Result <- NULL
+```
+
+```{r}
+library(data.table)
+flights <- fread("flights.csv")
+object.size(flights)
+```
+
+```{r}
+names(flights) <- c("icao24", "callsign", "country", "last.update","last.contact", "longitude", "latitude", "altitude.baro", "ground", "velocity", "track", "vertical.rate", "sensors", "altitude.geo", "squawk", "spi", "position.source", "time")
+```
+
+```{r}
+flights[, c("last.contact", "last.update", "sensors", "altitude.geo", "squawk", "spi", "position.source"):=NULL]
+```
+
+```{r}
+flights[, altitude.baro:=ifelse(ground == TRUE , 0, altitude.baro)]
+flights[, ground:=NULL]
+```
+
+```{r}
+flights[, time:=time - 1548028800]
+```
+
+```{r}
+flights <- na.omit(flights)
+```
+
+```{r}
+duplicated.rows <- duplicated(flights[, 1 : 5])
+flights <- flights[!duplicated.rows]
+```
+
+```{r}
+flights <- flights[!callsign == ""]
+flights <- flights[!callsign == "0000000"]
+flights <- flights[!callsign == "00000000"]
+flights <- flights[!grepl("TEST", callsign)]
+```
+
+### 3.3.4 Exercises
+
+```{r}
+#fread(URLencode("https://www.quandl.com/api/v3/datasets/WIKI/GOOG.csv?start_date=2015-01-01"))
+```
+
+# Chapter 4. Visualization
+
+## 4.1 R base graphics
+
+```{r}
+v <- 1 : 10
+plot(v)
+u <- 6 : 15
+plot(u, v)
+```
+
+```{r}
+plot(u, v, type="l", lty=3, lwd=4, cex=3, col="blue", xaxt="n", yaxt="n")
+plot(u, v, pch=4, cex=1, col=3, main="Test plot", xlab= "Variable X", ylab="Variable Y")
+plot(u, v, pch=8, type="b", cex=0.8, col=6, xlab="", ylab="", bty="n", xlim=c(0, 20))
+plot(u, v, pch=25, cex=3, col=4, bg=2)
+```
+
+```{r}
+str(iris)
+```
+
+```{r}
+plot(iris) # generates a multiple image plot
+matrix.iris <- as.matrix(iris) # forces iris as a matrix
+plot(matrix.iris) # scatter plot of the first two columns
+```
+
+```{r}
+plot(matrix.iris , pch=18, cex=1.5, col="blue", main="Sepal length and width", xlab="Sepal length", ylab="Sepal width")
+```
+
+```{r}
+plot(matrix.iris , pch=18, cex=1.5, col=iris$Species, main="Sepal length and width by species", xlab="Sepal length", ylab="Sepal width")
+```
+
+```{r}
+x <- 9 : 15 / 2
+y1 <- c(2.6, 2.8, 3.2, 3.6, 4, 4.2, 4.3)
+y2 <- y1 + 1
+y3 <- y1 + 2
+y4 <- y1 - 1
+plot(x, y1, type="p", lty=1, lwd=2, xlim=c(4, 8), ylim=c(0, 6.5), ylab="Offset")
+points(x, y2, type="l", lty=1, lwd=2)
+points(x, y3, type="b", lty=1, lwd=2)
+points(x, y4, type="h", lty=1, lwd=2)
+```
+
+```{r}
+USPersonalExpenditure
+```
+
+```{r}
+plot(USPersonalExpenditure[1, ], type="l", lwd=2, ylim=c(0, 90), ylab="", main="US Personal Expenditure")
+lines(USPersonalExpenditure[2, ], col=2, lwd=2)
+lines(USPersonalExpenditure[3, ], col=3, lwd=2)
+lines(USPersonalExpenditure[4, ], col=4, lwd=2)
+lines(USPersonalExpenditure[5, ], col=5, lwd=2)
+```
+
+```{r}
+curve(sin, from=0, to=2 * pi , lwd=2, lty=2)
+```
+
+```{r}
+supply <- function(x){x ^ 2 + 2}
+demand <- function(x){5 + x - x ^ 2}
+```
+
+```{r}
+curve(supply , from=0, to=3, ylim=c(0, 6), lwd=2, col="blue", main="Equilibrium price", xlab="Quantity", ylab="Price")
+curve(demand , add=TRUE , lwd=2, col="red")
+```
+
+```{r}
+# First part
+plot(0 : 25, rep(0, 26), pch=c(0 : 25), cex=3, yaxt="n", ylab="", xlab="", col=c(rep(1, 21), rep(2, 5)), bg=3, bty="n")
+axis(side=1, at=seq(1, 25, 1), labels=c(1:25))
+#Second part
+labels <- c("white", "black", "red", "green", "blue", "cyan", "magenta", "yellow", "grey")
+plot(0 : 8, rep(0, 9), pch=15, cex=3, yaxt="n", ylab="", xlab="", col=0:8, bty="n")
+text(0 : 8, rep(0.8, 9), labels , col=c(1, 1 : 8), cex=2)
+axis(side=1, at=seq(1, 25, 1), labels=c(1 : 25))
+#Third part
+labels <- c("6", "5", "4", "3", "2", "1")
+A <- matrix(NA, 12, 2)
+A[, 2] <- c(6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1) * 0.3
+A[, 1] <- rep(c(0.2, 1), 6)
+plot(A[1 : 2, ], type="l", lty=1, lwd=2, ylim=c(0.1, 1.9), bty="n", axes=FALSE , ylab="", xlab="")
+text(rep(0.2, 6), (1:6)*0.3, labels , cex=2)
+points(A[3 : 4, ], type="l", lty=2, lwd=2, ylim=c(0.1, 0.6))
+points(A[5 : 6, ], type="l", lty=3, lwd=2, ylim=c(0.1, 0.6))
+points(A[7 : 8, ], type="l", lty=4, lwd=2, ylim=c(0.1, 0.6))
+points(A[9 : 10, ], type="l", lty=5, lwd=2, ylim=c(0.1, 0.6))
+points(A[11 : 12, ], type="l", lty=6, lwd=2, ylim=c(0.1, 0.6))
+```
+
+### 4.1.2 More plots for univariate series
+
+```{r}
+barplot(USPersonalExpenditure[, 5], ylab="Billions of dollars", main="US Personal Expenditure in 1960", col="darkgreen")
+```
+
+```{r}
+barplot(USPersonalExpenditure, legend.text=TRUE, args.legend=c(x=2, y=150, cex=0.5))
+```
+
+```{r}
+dotchart(USPersonalExpenditure[, 1], main="US Expenditure Year 1940")
+```
+
+```{r}
+dotchart(USPersonalExpenditure, main="US expenditure. Evolution 1940-1960")
+```
+
+```{r}
+boxplot(iris$Petal.Width, main="Box plot Petal Width")
+```
+
+```{r}
+boxplot(iris$Sepal.Length ~ iris$Species, notch=TRUE, main="Box plots Sepal Length for each species")
+```
+
+```{r}
+box.sepal <- boxplot(iris$Sepal.Length ~ iris$Species , notch=TRUE)
+box.sepal
+```
+
+```{r}
+hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal Length (cm)", ylab="Frequency")
+```
+
+```{r}
+hist.sepal <- hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal Length (cm)", ylab="Frequency")
+hist.sepal
+```
+
+```{r}
+pie(hist.sepal$counts , labels = hist.sepal$mids , col=1:8, main="Sepal length distribution")
+```
+
+```{r}
+pie(USPersonalExpenditure[,1], col=rainbow(5), main="US Personal Expenditure in 1940")
+```
+
+```{r}
+plot(matrix.iris[, c(1, 3)], pch=18, cex=1.5, col=iris$Species, main="Comparison between sepal and petal length", xlab="Sepal length", ylab="Petal length")
+legend("bottomright", legend=levels(iris$Species), col=1 : 3,
+pch=18, cex=0.8, pt.cex=1.5)
+```
+
+```{r}
+curve(supply , from=0, to=3, ylim=c(0, 6), lwd=2, col="blue", main="Equilibrium price", xlab="Quantity", ylab="Price")
+curve(demand , add=TRUE , lwd=2, col="red")
+points(x=1.5, y=4.25, pch=19)
+text(x=1.5, y=4.25, labels="Equilibrium point", pos=4, font=4)
+```
+
+```{r}
+par(mfrow=c(2, 2), mar=c(3, 3, 2, 2), oma=c(0, 0, 2, 0), font=2)
+plot(matrix.iris[, c(1, 3)], pch=18, cex=1.5, col=iris$Species, main="Comparison between sepal and petal length", xlab="Sepal length", ylab="Petal length")
+legend("bottomright", legend=levels(iris$Species), col=1:3,
+pch=18, cex=0.6, pt.cex=1.5)
+boxplot(iris$Sepal.Length ~ iris$Species, notch=TRUE, main="Box plots sepal length for each species")
+hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal length (cm)", ylab="Frequency")
+pie(hist.sepal$counts , labels = hist.sepal$mids, col=1 : 8, main="Sepal length distribution")
+mtext("The sepal distribution", side=3, line=1, outer=TRUE)
+```
+
+```{r}
+lay.matrix <- matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE)
+layout(lay.matrix , widths=c(0.4, 0.6), heights=c(0.3, 0.7))
+layout.show(n=3)
+```
+
+```{r}
+lay.matrix <- matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE)
+layout(lay.matrix , widths=c(0.4, 0.6), heights=c(0.3, 0.7))
+par(mar=c(2, 2, 2, 1))
+barplot(USPersonalExpenditure[,5], ylab="Billions of dollars", main="Expenditure in 1960", col="darkgreen")
+pie(USPersonalExpenditure[,1], col=rainbow(5), main="Expenditure in 1940", radius=0.5)
+dotchart(USPersonalExpenditure , main="Evolution 1940-1960")
+mtext("Evolution US Personal Expenditure", side=3, outer=TRUE, font=3)
+```
+
+```{r}
+png("Iris -histogram.png", width=400, height=300)
+hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal Length (cm)", ylab="Frequency")
+dev.off()
+```
+
+### 4.1.4 Exercises
+
+```{r}
+set.seed(1)
+x <- rnorm(100, 1, 2)
+y <- 0.5 * x + rep(1, 100) + rnorm(100, 0, 0.7)
+```
+
+## 4.2 The ggplot2 library
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width))
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
+  geom_point()
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width), color="red") +
+  geom_point(aes(x=Sepal.Length, y=Petal.Length), color="blue")
+```
+
+```{r}
+geom_point(aes(x=Sepal.Length, y=Petal.Length, color="blue"))
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width, color=Species))
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width, alpha=Sepal.Length))
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width, color=Species, size=Sepal.Width))
+```
+
+```{r}
+US.frame <- as.data.frame(t(USPersonalExpenditure), row.names=F)
+US.frame <- cbind(year=c(1940, 1945, 1950, 1955, 1960), US.frame)
+ggplot(US.frame) +
+  geom_line(aes(x=year, y=`Food and Tobacco`)) +
+  geom_line(aes(x=year, y=`Household Operation`), color=2) +
+  geom_line(aes(x=year, y=`Medical and Health`), color=3) +
+  geom_line(aes(x=year, y=`Personal Care`), color=4) +
+  geom_line(aes(x=year, y=`Private Education`), color=5)
+```
+
+```{r}
+supply <- function(x){x ^ 2 + 2}
+demand <- function(x){5 + x - x ^ 2}
+values <- seq(0, 3, 0.1)
+supply.demand <- data.frame(Quantity=values , Price=supply(values), Price2=demand(values))
+ggplot(supply.demand) +
+  geom_line(aes(x=Quantity , y=Price), color=4) +
+  geom_line(aes(x=Quantity , y=Price2), color=2)
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Petal.Length, y=Petal.Width, color=Species)) +
+  geom_vline(xintercept=2.5, lty=2) +
+  geom_hline(yintercept=0.75, lty=2)
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) +
+  geom_point() +
+  geom_abline(intercept=-0.3630755, slope=0.4157554, color=2,lty=1)
+```
+
+```{r}
+ggplot(diamonds) + geom_bar(aes(x=clarity))
+ggplot(diamonds) + geom_bar(aes(x=clarity, fill=color), width=1)
+ggplot(diamonds) + geom_col(aes(x=clarity, y=price, fill=color))
+```
+
+```{r}
+ggplot(iris) + geom_histogram(aes(x=Petal.Length))
+ggplot(iris) + geom_histogram(aes(x=Petal.Length, fill=Species), breaks=seq(0, 7, 0.2))
+```
+
+```{r}
+ggplot(iris) + geom_boxplot(aes(y=iris$Sepal.Width))
+ggplot(iris, aes(x=Species, y=Sepal.Width, fill=Species)) +
+  geom_boxplot(notch=TRUE, outlier.color=6, outlier.shape=16, outlier.size=3) +
+  geom_jitter(size=0.3, width=0.1)
+```
+
+```{r}
+min.unemp <- economics$unemploy - 1000
+max.unemp <- economics$unemploy + 1000
+ggplot(economics , aes(x=date, y=unemploy)) +
+  geom_errorbar(aes(ymin=min.unemp, ymax=max.unemp), color=3) +
+  geom_line(color=2, size=1.2)
+```
+
+```{r}
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) +
+  geom_point() +
+  geom_smooth(method=lm, level=0.999)
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width, color=Species)) +
+  geom_point() +
+  geom_smooth(method=lm, level=0.99)
+```
+
+### 4.2.3 Facets
+
+```{r}
+ggplot(diamonds, aes(x=carat, y=price)) +
+  geom_point() +
+  facet_grid(. ~ cut)
+ggplot(diamonds, aes(x=carat, y=price)) +
+  geom_point() +
+  facet_grid(cut ~ clarity)
+```
+
+```{r}
+ggplot(diamonds , aes(x=price, y=carat, color=color)) +
+  geom_point() +
+  facet_wrap(clarity ~ ., scales="free_y", ncol=4)
+```
+
+### 4.2.4 Statistics
+
+```{r}
+ggplot(iris) + stat_ecdf(aes(x=Sepal.Length, color=Species))
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  stat_ellipse(type="norm", level=0.68, linetype=2)
+```
+
+```{r}
+ggplot(data.frame(x=c(0, 2 * pi)), aes(x)) +
+  stat_function(fun=sin, lwd=3, lty=2)
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, z=Petal.Length)) + 
+  stat_summary_2d(fun="mean", binwidth=c(0.2, 0.2))
+```
+
+### 4.2.5 Customization layers
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  coord_cartesian(xlim=c(5, 7), ylim=c(2.5, 4),
+  expand=FALSE, clip="off")
+```
+
+```{r}
+ggplot(diamonds , aes(x=carat, y=price, color=color)) +
+  geom_point() +
+  coord_trans(x="log", y="log")
+```
+
+```{r}
+ggplot(diamonds, aes(x=clarity, fill=color)) +
+  geom_bar() +
+  coord_polar()
+```
+
+```{r}
+ggplot(diamonds, aes(x=factor(1), fill=clarity)) +
+  geom_bar() +
+  coord_polar(theta="y")
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  labs(title="IRIS Sepals", subtitle="Setosa , Versicolor and Virginica", caption="Comparison between the sepal length and width for the iris dataset", tag="Fig. 1", x="Sepal Length", y="Sepal Width", color="Flowers")
+```
+
+```{r}
+ggplot(iris , aes(x=Sepal.Length , y=Sepal.Width , color=Species)) + 
+  geom_point() + 
+  labs(x="Sepal Length", y="Sepal Width", title="IRIS dataset") +
+  guides(color=guide_legend(title="Flowers:", title.position="left", labels=FALSE , direction="horizontal")) +   theme(legend.position="bottom")
+```
+
+```{r}
+ggsave("example_plot.png", width=14, height=11, units="cm", device="png")
+```
+
+### 4.2.6 Exercises
+
+## 4.3 Package `plotly`
+
+```{r}
+library(plotly)
+```
+
+### 4.3.1 Conversion of `ggplot2` plots
+
+```{r}
+iris.ggplot <- ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  guides(color=guide_legend(title="Flowers:"))
+ggplotly(iris.ggplot)
+iris.ggplot <- ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species, size=Petal.Width)) +
+  geom_point()
+ggplotly(iris.ggplot)
+```
+
+### 4.3.2 Creating plots with `plotly`
+
+```{r}
+plot_ly(iris, x=~Sepal.Length, y=~Petal.Width, z=~Sepal.Width) %>%
+  add_markers(color=~Petal.Length, symbol=~Species, symbols=~c(15, 16, 18))
+```
+
+### 4.3.3 Exercises
+```{r}
+LifeCycleSavings$Country <- rownames(LifeCycleSavings)
+```
+
+## 4.4 Package `leaflet`
+
+### 4.4.1 Maps and coordinates
+
+```{r}
+library(leaflet)
+```
+
+```{r}
+world.map <- leaflet() %>% addTiles()
+world.map
+```
+
+```{r}
+leaflet() %>% addProviderTiles("MtbMap")
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=34.04302, lng=-118.26725, zoom=16)
+```
+
+```{r}
+LA.lat <- 34.04302
+LA.lng <- -118.26725
+leaflet() %>%
+  addTiles() %>%
+  fitBounds(lat1=LA.lat-0.1, lat2=LA.lat+0.1, lng1=LA.lng-0.1, lng2=LA.lng+0.1)
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=LA.lat, lng=LA.lng, zoom=16) %>%
+  addMarkers(lat=LA.lat, lng=LA.lng, popup="Staples Center")
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=LA.lat, lng=LA.lng , zoom=16) %>%
+  addCircles(lat=LA.lat, lng=LA.lng , radius=50, color="green", stroke=TRUE, weight=5, fillOpacity=0.2, label="Staples Center")
+```
+
+### 4.4.2 Google Maps Platform
+
+```{r results="hide"}
+library(ggmap)
+register_google("w45I3C12h554i216N4s029m4E2i23K4I90N-356s")
+```
+
+```{r}
+places.LA <- c("Staples Center", "Walt Disney Concert Hall", "University of Southern California", "Natural History Museum of Los Angeles", "Dodger Stadium", "Dolby Theather Hollywood", "Los Angeles Memorial Coliseum", "Los Angeles International Airport", "Dorothy Chandler Pavillion", "Cathedral of Our Lady of Los Angeles", "Los Angeles City Hall", "Griffith Observatory")
+```
+
+```{r results="hide"}
+# fake key
+# places.LA.goo <- geocode(places.LA, output="more", source="google")
+```
+
+```{r results="hide"}
+# fake key
+# places.LA.goo$name <- places.LA
+# leaflet(places.LA.goo) %>%
+#   addTiles() %>%
+#   setView(lat=LA.lat, lng=LA.lng , zoom=11) %>%
+#   addMarkers(lng=~lon, lat=~lat , popup=~name)
+```
+
+```{r results="hide"}
+# fake key
+# center.places.LA <- places.LA[c(2, 9, 10, 11)]
+# center.places.LA.goo <- geocode(center.places.LA, output="more", source="google")
+# center.places.LA.goo$name <- center.places.LA
+# leaflet(center.places.LA.goo) %>%
+#   addTiles() %>%
+#   setView(lat=LA.lat+0.012, lng=LA.lng+0.02, zoom=15) %>%
+#   addPolygons(lng=~lon , lat=~lat)
+```
+
+```{r}
+name <- c("Los Angeles", "Glendale", "Thousand Oaks", "Calabasas", "Santa Monica", "Malibu", "Inglewood", "Burbank", "Pasadena", "Newport Beach", "Santa Catalina Island", "Beverly Hills", "West Hollywood", "Palos Verdes States", "Lakewood", "Anaheim", "Fullerton", "Santa Ana", "Santa Clarita", "Venice")
+population <- c(3792621, 203054, 128995, 24202, 92306, 12877, 110598, 104834, 142647, 86160, 4096, 34484, 37080, 13544, 154958, 352497, 140392, 334136, 210888, 261905)
+shire <- c("City", "North", "East", "East", "East", "East", "South", "North", "North", "West", "South", "East", "East", "South", "South", "West", "West", "West", "North", "East")
+towns <- as.data.frame(cbind(name , population , shire))
+head(towns)
+```
+
+```{r results="hide"}
+# fake key
+# towns.goo <- geocode(as.character(towns$name), output="more", source="google")
+```
+
+```{r}
+# fake key
+# towns.goo$name <- name
+# towns.goo$population <- population
+# towns.goo$col <- c(1, 2, 3, 3, 3, 3, 4, 2, 2, 5, 4, 3, 3, 4, 4, 5, 5, 5, 2, 3)
+# pal <- colorNumeric(c("yellow", "red", "darkgreen", "blue", "orange"), 1 : 5)
+# towns.goo$opa <- c(0.1, rep(0.6, 19))
+```
+
+```{r results="hide"}
+# fake key
+# leaflet() %>%
+#   addTiles() %>%
+#   setView(lat=LA.lat-0.2, lng=LA.lng , zoom=8) %>%
+#   addCircles(lng=towns.goo$lon, lat=towns.goo$lat, radius=towns.goo$population / 50, color=pal(towns.goo$col), stroke=FALSE, fillOpacity=towns.goo$opa, popup=towns.goo$name, label=as.character(towns.goo$population))
+```
+
+### 4.4.3 Exercises
+
+## 4.5 Visualization of the `flights` dataset
+
+Recall to run all the previous chunks for the `flights` dataset in section 3.3.3 above.
+
+```{r}
+flight <- flights[callsign == "IBE0730"]
+plot(as.POSIXlt(flight$time, origin="2019-01-21"), flight$altitude.baro, type="o", pch=16, xlab="Time", ylab="Altitude", main="IBE0730 Flight Altitude")
+```
+
+```{r}
+plot(as.POSIXlt(flight$time[5 : 13], origin="2019-01-21"), flight$altitude.baro[5 : 13], type="l", col=2, xlab="Time", ylab="Altitude", main="IBE0730 Flight Altitude")
+```
+
+```{r}
+ggplot(flights) +
+  geom_histogram(aes(x=altitude.baro), fill="DarkGreen", color="black")
+ggplot(flights) +
+  geom_boxplot(aes(y=velocity , color=country)) +
+  theme(legend.position="none")
+```
+
+```{r}
+ggplot(flights) +
+  geom_point(aes(x=longitude , y=latitude))
+```
+
+```{r}
+# Take a while
+# leaflet() %>%
+#   addTiles() %>%
+#   addMarkers(lng=flights$longitude, lat=flights$latitude)
+```
+
+```{r}
+library(rworldmap)
+newmap <- getMap()
+plot(newmap)
+points(flights$longitude, flights$latitude, col="blue", pch=16, cex=.6)
+```
+
+# Chapter 5. Data Analysis with R
+
+## 5.1 Descriptive Statistics
+
+```{r}
+library(mlbench)
+data(PimaIndiansDiabetes2)
+? PimaIndiansDiabetes2
+head(PimaIndiansDiabetes2)
+```
+
+```{r}
+attach(PimaIndiansDiabetes2)
+```
+
+### 5.1.1 Position measures
+
+```{r}
+mean(c(4, 5, 8, 2, 8, 4, 5, 9, 2, 7))
+```
+
+```{r}
+mean(mass, na.rm=TRUE)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], mean, na.rm=TRUE)
+```
+
+```{r}
+sales.per <- c(0.10, -0.05, 0.20, 0.05, -0.03)
+sales <- 1 + sales.per
+5000 * prod(sales)
+```
+
+```{r}
+5000 * (1.050151) ^ 5
+```
+
+```{r}
+5000 * (1.054) ^ 5
+```
+
+```{r}
+library(psych)
+geometric.mean(sales) - 1
+```
+
+```{r}
+23 / 10 + 23 / 30
+```
+
+```{r}
+46 / 20
+```
+
+```{r}
+speeds = c(10, 30)
+harmonic.mean(speeds, na.rm=TRUE)
+```
+
+```{r}
+46 / 15
+```
+
+```{r}
+median(1 : 7)
+```
+
+```{r}
+median(1 : 6)
+```
+
+```{r}
+median(mass , na.rm=TRUE)
+```
+
+```{r}
+mean(c(1 : 7, 30))
+```
+
+```{r}
+median(c(1 : 7, 30))
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], median, na.rm=TRUE)
+```
+
+```{r}
+library(DescTools)
+Mode(mass)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2, Mode, na.rm=TRUE)
+```
+
+```{r}
+# plot histogram
+hist(mass , col="seashell", border="black", xlab="Body mass index", main="Pima Indians Diabetes")
+# add mean
+abline(v=mean(mass, na.rm=TRUE), col="red", lwd=2)
+# add median
+abline(v=median(mass, na.rm=TRUE), col="blue", lwd=2)
+abline(v=Mode(mass), col="seagreen", lwd=2) # add mode
+legend(x="topright", c("Mean", "Median", "Mode"),
+col=c("red", "blue", "seagreen"), lwd=c(2, 2)) # legend
+```
+
+```{r}
+quantile(mass, probs=0.65, na.rm=TRUE)
+```
+
+```{r}
+quantile(mass, na.rm=TRUE)
+```
+
+```{r}
+quantile(mass, probs=seq(0, 1, 0.10), na.rm=TRUE)
+```
+
+```{r}
+percent.fun <- ecdf(mass)
+percent.fun(40)
+```
+
+```{r}
+percent.fun(median(mass , na.rm=TRUE))
+```
+
+```{r}
+summary(mass)
+```
+
+```{r}
+summary(PimaIndiansDiabetes2)
+```
+
+### 5.1.2 Dispersion measures
+
+```{r}
+IQR(mass, na.rm=TRUE)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], IQR, na.rm=TRUE)
+```
+
+```{r}
+boxplot(mass, xlab="Body mass index", col="papayawhip")
+boxplot(pressure, xlab="Systolic blood pressure", col="pink")
+```
+
+```{r}
+boxplot(mass)$out
+```
+
+```{r}
+boxplot(pressure)$out
+```
+
+```{r}
+boxplot(mass, range=3, xlab="Body mass index", col="papayawhip")
+boxplot(pressure, range=3, xlab="Systolic blood pressure", col="pink")
+```
+
+```{r}
+boxplot(mass , range=3)$out
+```
+
+```{r}
+boxplot(pressure , range=3)$out
+```
+
+```{r}
+var.p <- function(x){
+  var(x, na.rm=TRUE) * (length(x) - 1) / (length(x))
+}
+sd.p <- function(x){
+  sqrt(var.p(x))
+}
+```
+
+```{r}
+class1 <- c(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)
+class2 <- c(0, 0, 0, 0, 0, 10, 10, 10, 10, 10)
+```
+
+```{r}
+var.p(class1)
+```
+
+```{r}
+var.p(class2)
+```
+
+```{r}
+sd.p(class1)
+```
+
+```{r}
+sd.p(class2)
+```
+
+```{r}
+var.p(mass)
+```
+
+```{r}
+sd.p(mass)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], sd.p)
+```
+
+```{r}
+sd.p(mass) / mean(mass , na.rm=TRUE)
+```
+
+```{r}
+sd.p(pressure) / mean(pressure , na.rm=TRUE)
+```
+
+### 5.1.3 Shape measures
+
+```{r}
+library(moments)
+```
+
+```{r}
+skewness(pressure, na.rm=TRUE)
+```
+
+```{r}
+skewness(pregnant, na.rm=TRUE)
+```
+
+```{r}
+x <- c(rep(1, 100), rep(2, 140), rep(3, 25), rep(4, 15), rep(5, 10))
+y <- c(rep(1, 100), rep(2, 140), rep(3, 30), rep(4, 20), rep(5, 15))
+skewness(x)
+```
+
+```{r}
+skewness(y)
+```
+
+```{r}
+x <- c(rep(1, 30), rep(2, 40), rep(3, 250), rep(4, 400), rep(5, 150), rep(6, 120), rep(7, 10))
+skewness(x)
+```
+
+```{r}
+kurtosis(triceps, na.rm=TRUE)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[,-9], FUN=kurtosis, na.rm=TRUE)
+```
+
+### 5.1.4 Concentration measures
+
+```{r}
+salary1 <- c(10, 15, 20, 21, 22, 35, 35, 38, 60, 100)
+salary2 <- c(21, 22, 23, 25, 32, 38, 42, 46, 46, 50)
+```
+
+```{r}
+Gini(salary1)
+```
+
+```{r}
+Gini(salary2)
+```
+
+```{r}
+Gini(pregnant, na.rm=TRUE)
+```
+
+```{r}
+Gini(pressure, na.rm=TRUE)
+```
+
+```{r}
+plot(Lc(pregnant), col="red", lwd=2, main="Lorentz curve for pregnant", xlab="Cumulative individuals", ylab="Cumulative values")
+plot(Lc(pressure, na.rm=TRUE), col="blue", lwd=2, main="Lorentz curve for pressure", xlab="Cumulative individuals", ylab="Cumulative values")
+```
+
+```{r}
+library(ineq)
+Theil(pregnant)
+```
+
+```{r}
+Theil(pressure)
+```
+
+### 5.1.5 Exercises
+
+## 5.2 Statistical Inference
+
+### 5.2.1 Random variables
+
+```{r}
+class(mass)
+class(pregnant)
+```
+
+```{r}
+sort(unique(pregnant))
+```
+
+```{r}
+loaded <- data.frame(values=c(1, 2, 3, 4, 5, 6), probs=c(1 / 10, 1 / 10, 3 / 10, 2 / 10, 2 / 10, 1 / 10))
+ggplot(data=loaded , aes(x=values, y=probs)) +
+  geom_bar(stat="identity", fill="aquamarine3") +
+  ylim(c(0, 0.35))
+```
+
+```{r}
+ggplot(data=PimaIndiansDiabetes2, aes(x=mass)) +
+  geom_density() +
+  xlab("Mass") +
+  ylab("Density")
+ggplot(data=PimaIndiansDiabetes2, aes(x=mass)) +
+  stat_ecdf() +
+  xlab("Mass") +
+  ylab("Cumulative density")
+```
+
+```{r}
+pdf.density <- density(mass , na.rm=TRUE)
+```
+
+```{r}
+pdf.density$x[150]
+```
+
+```{r}
+pdf.density$y[150]
+```
+
+```{r}
+ecdf.cumul <- ecdf(mass)
+ecdf.cumul(35)
+```
+
+```{r}
+set.seed(5)
+x <- 1 : 50
+sample(x, size=10)
+```
+
+```{r}
+set.seed(5)
+sample(c("H", "T"), 25, replace=TRUE)
+```
+
+```{r}
+set.seed(5)
+sample(1 : 6, size=10, prob=c(0.1, 0.1, 0.1, 0.1, 0.1, 0.5), replace=TRUE)
+```
+
+### 5.2.2 Probability distributions
+
+```{r}
+? Distributions
+```
+
+```{r}
+dbinom(2, size=5, prob=0.2)
+```
+
+```{r}
+pbinom(2, 5, 0.2, lower.tail=TRUE)
+```
+
+```{r}
+pbinom(2, 5, 0.2, lower.tail=FALSE)
+```
+
+```{r}
+qbinom(0.95, 5, 0.2)
+```
+
+```{r}
+set.seed(5)
+rbinom(10, 5, 0.2)
+```
+
+```{r}
+values <- 0 : 5
+plot(values, dbinom(values , 5, 0.2), type="b", xlab="Values", ylab="Probabilities", main="Mass")
+plot(values, pbinom(values , 5, 0.2), type="b", xlab="Values", ylab="Probabilities", main="Cumulative")
+```
+
+```{r}
+values <- 0 : 11
+plot(values, dpois(values, 5), type="b", xlab = "Values", ylab="Probabilities", main="Mass")
+plot(ppois(values, 5), type="b", xlab = "Values", ylab="Probabilities", main="Cumulative")
+```
+
+```{r}
+pnorm(80, 70, 15) - pnorm(60, 70, 15)
+```
+
+```{r}
+x <- seq(40, 100, by=0.5)
+curve(dnorm(x, 70, 15), xlim=c(40, 100), col="blue", lwd=2, xlab="x", ylab="f(x)", main="Density function N(70,15)")
+curve(pnorm(x, 70, 15), xlim=c(40, 100), col="blue", lwd=2, xlab="x", ylab="f(x)", main="Cumulative function N(70,15)")
+```
+
+```{r}
+set.seed(1)
+sample <- rnorm(1000, 70, 15)
+hist(sample, freq=FALSE, breaks=seq(20, 130, 10), col="seashell", xlab="Heart rate", main="Histogram for simulation of N(70,15)")
+curve(dnorm(x, 70, 15), xlim=c(20, 130), col="blue", lwd=2, add=TRUE)
+```
+
+```{r}
+qqnorm(mass, main="Normal Q-Q plot for mass")
+qqline(mass, col="blue", lwd=2) # adds a reference line
+```
+
+```{r}
+qqnorm(rnorm(1000, 70, 15), main="Normal Q-Q plot for N(70,15)")
+qqline(rnorm(1000, 70, 15), col="blue", lwd=2)
+```
+
+```{r}
+m = 10000 # sample size of the final variable
+lambda = 4 # poisson parameter
+par(mfrow=c(2, 2))
+for (n in c(1, 5, 10, 100)) {
+  x <- NULL #initialization of x
+  for (i in 1:m) {
+    x <- c(x, mean(rpois(n, lambda)))
+  }
+  x.normalized <- (x-lambda)/(sqrt(lambda/n))
+  hist(x.normalized , col="seashell",
+  main=paste("Mean of", n,"Po(4)"), xlab="Value")
+}
+```
+
+```{r}
+n = 100
+m = 10000
+mu = mean(mass , na.rm=TRUE)
+sigma = sd(mass , na.rm=TRUE)
+x <- NULL
+for (i in 1:m) {
+  x <- c(x, mean(sample(na.omit(mass), n)))
+}
+y = (x-mu)/(sigma/sqrt(n))
+hist(y, col="seashell", main=paste(paste("Mean of 100",sep=" "),"mass",sep=" "), xlab="Value")
+```
+
+### 5.2.3 Confidence intervals and hypothesis tests
+
+```{r}
+mean(triceps, na.rm=TRUE)
+```
+
+```{r}
+sd(triceps , na.rm=TRUE)^2
+```
+
+```{r}
+conf.level <- 0.95
+t <- qt((1 - conf.level) / 2, df=length(triceps) - 1, lower.tail = FALSE)
+sigma <- sd(triceps , na.rm=TRUE)
+mean <- mean(triceps , na.rm=TRUE)
+sd.mean <- sigma / sqrt(length(triceps) - sum(is.na(triceps)))
+interval <- c(mean - t * sd.mean , mean + t * sd.mean)
+interval
+```
+
+```{r}
+MeanCI(triceps, na.rm=TRUE, conf.level=0.95)
+```
+
+```{r}
+library(boot)
+set.seed(1)
+resampling <- boot(na.omit(triceps), function(x, i) mean(x[i]), R=10000)
+boot.ci(resampling, conf = 0.95)
+```
+
+```{r}
+VarCI(mass, na.rm=TRUE, conf.level=0.95)
+```
+
+```{r}
+t.test(pressure, mu=70, alternative="greater")
+```
+
+```{r}
+t.test(pressure, mu=72, alternative="two.sided")
+```
+
+```{r}
+t.test(pressure, mu=71.4, alternative="two.sided")
+```
+
+```{r}
+test <- t.test(pressure, mu=70, alternative="greater")
+test$p.value
+```
+
+```{r}
+t.test(insulin, glucose, mu=0, alternative="two.sided")
+```
+
+```{r}
+t.test(insulin, glucose, mu=0, alternative="less")
+```
+
+```{r}
+t.test(insulin, glucose, mu=30, alternative="two.sided")
+```
+
+```{r}
+VarTest(pressure, sigma.squared=153)
+```
+
+```{r}
+var.test(pressure, mass, ratio=3, alternative= "two.sided")
+```
+
+```{r}
+library(snpar)
+runs.test(c(1, 1, 1, 1, 1, 1, 1, 1, 0, 0))
+```
+
+```{r}
+set.seed(5)
+sample.vector <- rnorm(100000, 0, 1)
+binary.vector <- ifelse(sample.vector < 0, 0, 1)
+runs.test(binary.vector)
+```
+
+```{r}
+ks.test(glucose, pressure)
+```
+
+```{r}
+set.seed(5)
+ks.test(rpois(100, 5), rpois(200, 5))
+```
+
+```{r}
+shapiro.test(insulin)
+```
+
+```{r}
+set.seed(5)
+shapiro.test(rnorm(5000, 0, 1))
+```
+
+### 5.2.4 Exercises
+
+## 5.3 Multivariate Statistics
+
+### 5.3.1 Correlation and bivariate statistics
+
+```{r}
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=pressure)) +
+  geom_point()
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=triceps)) +
+  geom_point()
+```
+
+```{r}
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=triceps)) +
+  geom_point() +
+  geom_vline(xintercept=mean(mass, na.rm=TRUE), colour="red", size=1.2) +
+  geom_hline(yintercept=mean(triceps, na.rm=TRUE), colour="blue", size=1.2) +
+  annotate("text", label="mean of mass", angle=90, x=34, y=75, size=4, colour="red") +
+  annotate("text", label="mean of triceps", x=55, y=25, size=4, colour="blue")
+```
+
+```{r}
+cov(mass, pressure, use="pairwise.complete.obs")
+```
+
+```{r}
+cov(mass, triceps, use="pairwise.complete.obs")
+```
+
+```{r}
+cor(mass, pressure, use="pairwise.complete.obs")
+```
+
+```{r}
+cor(mass, triceps, use="pairwise.complete.obs")
+```
+
+```{r}
+cor(PimaIndiansDiabetes2[, -9], use="pairwise.complete.obs")
+```
+
+```{r}
+library(corrplot)
+corrplot(cor(PimaIndiansDiabetes2[,-9], use="pairwise.complete.obs"))
+```
+
+```{r}
+plot(PimaIndiansDiabetes2)
+```
+
+### 5.3.2 Linear Model
+
+```{r}
+model <- lm(triceps ~ mass, data=PimaIndiansDiabetes2)
+model$coefficients
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+summary(model)$r.squared
+```
+
+```{r}
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=triceps)) +
+  geom_point() +
+  geom_smooth(method="lm", se=TRUE)
+```
+
+```{r}
+predict(model, data.frame(mass=30), interval="confidence")
+```
+
+```{r}
+library(psych)
+pairs.panels(PimaIndiansDiabetes2[, -9],
+method="pearson", hist.col="seashell",
+density=TRUE , lm=TRUE)
+```
+
+### 5.3.3 Multivariable Linear Models
+
+```{r}
+model <- lm(triceps ~ mass + glucose + pressure)
+summary(model)
+```
+
+```{r}
+model <- lm(mass ~ ., data=PimaIndiansDiabetes2)
+summary(model)
+```
+
+```{r}
+contrasts(diabetes)
+```
+
+```{r}
+model <- lm(mass ~ . -glucose - pedigree - age, data=PimaIndiansDiabetes2)
+summary(model)
+```
+
+### 5.3.4 Nonlinear transformations
+
+```{r}
+linear.price <- lm(price ~ x, data=diamonds)
+summary(linear.price)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds, aes(y=price , x=x)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm") +
+  xlim(3, 11) +
+  ylim(0, 19000)
+```
+
+```{r}
+poly.price <- lm(price ~ poly(x, 2), data=diamonds)
+summary(poly.price)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds , aes(y=price , x=x)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm", formula=y ~ poly(x, 2)) +
+  xlim(3, 11) +
+  ylim(0, 19000)
+```
+
+```{r}
+linear.carat <- lm(x ~ carat , data=diamonds)
+summary(linear.carat)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds, aes(y=x, x=carat)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm")
+```
+
+```{r}
+linear.carat <- lm(x ~ log(carat), data=diamonds)
+summary(linear.carat)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds, aes(y=x, x=carat)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm", formula=y ~ log(x))
+```
+
+```{r}
+# conflict when running the whole file
+# contingency <- table(diabetes, age)
+# contingency
+```
+
+```{r}
+# conflict when running the whole file
+# library(vcd)
+# assocstats(contingency)
+```
+
+```{r}
+boxplot(mass ~ diabetes, data=PimaIndiansDiabetes2, ylab="Mass")
+```
+
+```{r}
+aov <- aov(mass ~ diabetes)
+summary(aov)
+```
+
+```{r}
+log.model <- glm(diabetes ~ ., data=PimaIndiansDiabetes2, family=binomial)
+summary(log.model)
+```
+
+```{r}
+predictions <- predict(log.model , type="response")
+head(predictions)
+```
+
+```{r}
+fact.predictions <- rep("neg", length(diabetes))
+fact.predictions[predictions > 0.5] <- "pos"
+table(fact.predictions , diabetes)
+```
+
+```{r}
+mean(fact.predictions == diabetes, na.rm=TRUE)
+```
+
+```{r}
+fact.predictions < -rep("neg", length(diabetes))
+fact.predictions[predictions > 0.6]="pos"
+table(fact.predictions, diabetes)
+```
+
+```{r}
+mean(fact.predictions == diabetes, na.rm=TRUE)
+```
+
+```{r}
+log.model <- glm(diabetes ~ glucose, data=PimaIndiansDiabetes2, family=binomial)
+```
+
+```{r}
+new.data <- data.frame(glucose=138, mass=35.5, pedigree=0.325)
+predict(log.model, newdata=new.data, type="response")
+```
+
+### 5.3.6 Exercises
+
+## 5.4 Data analysis of the flights database
+
+Recall to load the database with the codes of section 3.3.3
+
+```{r}
+summary(flights)
+```
+
+```{r}
+library(corrplot)
+corrplot(cor(flights[, -c(1, 2, 3)], use="pairwise.complete.obs"))
+```
+
+```{r}
+library(vcd)
+assocstats(table(flights$callsign, flights$country))
+```
+
+```{r}
+model.velocity <- lm(velocity ~ altitude.baro, data=flights)
+summary(model.velocity)
+```
+
+```{r}
+model.velocity <- lm(velocity ~ longitude + latitude + altitude.baro, data=flights)
+summary(model.velocity)
+```
+
+```{r}
+model.velocity <- lm(velocity ~ altitude.baro + track, data=flights)
+summary(model.velocity)
+```
+
+```{r}
+model.vertical <- lm(vertical.rate ~ longitude + latitude + altitude.baro + velocity, data=flights)
+summary(model.vertical)
+```

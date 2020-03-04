@@ -25,8 +25,8 @@ Folder *datasets* contains files used in exercises and examples (sections 3.2 an
 4. File *flights.xlsx*. Used in Exercise 3.3.
 5. File *flights.csv*. Used in Section 3.3.3 Practical examples 
 
-Folder *webs* contains website files for the scrapping exercises (section 3.2)
+Folder *webs* contains website files for the scrapping examples and exercises (section 3.2)
 
 6. File *RottenTomatoes.htm*. Used in Exercise 3.7.
 7. File *GoodReads.mhtml*. Used in Exercise 3.8.
-8. File *NBA 19_20.mhtml*. Used in ???. 
+8. File *NBA 19_20.mhtml*. Used in Section 3.2.3. 

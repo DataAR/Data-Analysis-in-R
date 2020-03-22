@@ -1,0 +1,1052 @@
+---
+title: |
+ | Introduction to Data Analysis with R
+ | Chapter 2. Introduction to R
+author: Alfonso Zamora Saiz, Carlos Quesada González, Lluís Hurtado Gil and Diego
+  Mondéjar Ruiz
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+---
+
+Each chunk represents a code window in the book. Please note that some chunks could not run properly or take a too much time to do it. The first line of these chunks is a comment, starting with the simbol `#` to clarify why is this.
+
+# 2.1 Programming Languages and R
+
+## 2.1.1 Some remarks on the history of programming languages
+
+## 2.1.2 Paradigms and structure
+
+## 2.1.3 The R language
+
+## 2.1.4 RStudio
+
+```{r}
+3 + 4
+```
+
+## 2.1.5 First Steps
+
+```{r}
+for (i in 1 : 3) { 
+  print(2 * i)
+}
+```
+
+```{r}
+temperatures <- c(18, 24, 26, 27, 19, 20, 22)
+names(temperatures) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+```
+
+```{r, eval=FALSE}
+install.packages("ggplot2")
+```
+
+```{r}
+library(ggplot2)
+```
+
+```{r, eval=FALSE}
+installed.packages()
+```
+
+```{r, eval=FALSE}
+update.packages(ask=FALSE)
+```
+
+```{r}
+# Script for printing a sentence and a number
+sentence <- "The price is" # defines the sentence 
+price <- 249.99 # defines the price 
+print(paste(sentence, price)) # prints both
+```
+
+Script for printing a sentence and a number
+```{r}
+sentence <- "The price is" # defines the sentence 
+price <- 249.99 # defines the price 
+print(paste(sentence, price)) # prints both
+```
+
+```{r}
+help(matrix) 
+?matrix
+```
+
+```{r}
+help(package="ggplot2")
+```
+
+```{r}
+help(diamonds, package="ggplot2")
+```
+
+```{r, eval=FALSE}
+demo(graphics)
+```
+
+# 2.2 Data Structures
+
+## 2.2.1 Variables and basic arithmetic
+
+```{r}
+3
+```
+
+```{r}
+3 + 4
+```
+
+```{r}
+3 - 5
+```
+
+```{r}
+2 * 6
+```
+
+```{r}
+5 / 3
+```
+
+```{r}
+15 %% 2
+```
+
+```{r}
+15 %/% 2
+```
+
+```{r}
+x <- 4
+```
+
+```{r}
+x
+```
+
+```{r}
+y <- 5
+```
+
+```{r}
+z <- x + y 
+z
+```
+
+```{r}
+number.decimal <- 4.3
+class(number.decimal)
+```
+
+```{r}
+2.73e4
+```
+
+```{r}
+1 / 2.73e4
+```
+
+```{r}
+word <- "Hello"
+class(word)
+```
+
+```{r}
+yes.no <- TRUE
+class(yes.no)
+```
+
+```{r}
+TRUE + TRUE
+```
+
+```{r}
+TRUE + FALSE
+```
+
+```{r}
+TRUE * FALSE
+```
+
+```{r}
+FALSE * FALSE
+```
+
+```{r}
+null.object <- NULL
+null.object
+```
+
+```{r}
+missing <- NA
+missing
+```
+
+```{r}
+1 + NA
+```
+
+```{r}
+TRUE - NA
+```
+
+## 2.2.2 Vectors
+
+```{r}
+vector.numbers <- c(1, 2, 3, 4)
+vector.numbers
+```
+
+```{r}
+length(vector.numbers)
+```
+
+```{r}
+vector.characters <- c("Today", "Yesterday", "Tomorrow")
+vector.characters
+```
+
+```{r}
+vector.logicals <- c(TRUE , FALSE)
+vector.logicals
+```
+
+```{r}
+c(NA, 3, 4)
+```
+
+```{r}
+4 : 12
+```
+
+```{r}
+rep(c(3, -1, 0.5), times=3)
+```
+
+```{r}
+rep(c(3, -1, 0.5), each=3)
+```
+
+```{r}
+rep(c(3, -1, 0.5), times=c(2, 1, 3))
+```
+
+```{r}
+rep(c(3, -1, 0.5), length.out=8)
+```
+
+```{r}
+seq(0, 10, 2.5)
+```
+
+```{r}
+temperatures <- c(28, 29, 27, 27, 30)
+names(temperatures) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+temperatures
+```
+
+```{r}
+rains <- c(0, 5, 6, 0, 2)
+names(rains) <- names(temperatures)
+```
+
+```{r}
+days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(rains) <- days
+rains
+```
+
+```{r}
+temperatures + 273.15
+```
+
+```{r}
+temperatures * 1.8 + 32
+```
+
+```{r}
+rains / (temperatures + 273.15)
+```
+
+```{r}
+total.rains <- sum(rains)
+total.rains
+```
+
+```{r}
+rains[2]
+```
+
+```{r}
+rains.beginning.week <- rains[c(1, 2)]
+rains.beginning.week
+```
+
+```{r}
+temperature.midweek <- temperatures[2 : 4]
+temperature.midweek
+```
+
+```{r}
+temperature.thursday <- temperatures["Thursday"]
+temperature.thursday
+```
+
+```{r}
+rains.beginning.week <- rains[c("Monday", "Tuesday")]
+rains.beginning.week
+```
+
+```{r}
+6 > 3
+```
+
+```{r}
+4 == 5
+```
+
+```{r}
+rains > 0
+```
+
+```{r}
+3 == 4 & 3 == 3
+```
+
+```{r}
+3 == 4 | 3 == 3
+```
+
+```{r}
+3 < 5 & 4 > 2
+```
+
+```{r}
+TRUE & TRUE & FALSE
+```
+
+```{r}
+xor(3 > 2, FALSE)
+```
+
+```{r}
+xor(TRUE , 4 == 4)
+```
+
+```{r}
+not.rainy.days <- rains == 0
+not.rainy.days
+```
+
+```{r}
+hot.days <- temperatures >= 29
+hot.days
+```
+
+```{r}
+rains[hot.days]
+```
+
+```{r}
+all(temperatures >= 28)
+```
+
+```{r}
+any(temperatures == 30)
+```
+
+```{r}
+which(temperatures == 27)
+```
+
+```{r}
+some.vector <- c(3, 7, 9, 6, 2, 8)
+order(some.vector)
+```
+
+```{r}
+some.vector[order(some.vector)]
+```
+
+```{r}
+sum(temperatures)
+```
+
+```{r}
+max(temperatures)
+```
+
+```{r}
+min(temperatures)
+```
+
+```{r}
+range(temperatures)
+```
+
+```{r}
+which(temperatures == max(temperatures))
+```
+
+## 2.2.3 Matrices
+
+```{r}
+matrix(data=NA, nrow=1, ncol=1, byrow=FALSE, dimnames=NULL)
+```
+
+```{r}
+matrix(1 : 9, byrow=TRUE, nrow=3)
+```
+
+```{r}
+matrix(1 : 15, nrow=2)
+```
+
+```{r}
+matrix(c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"), nrow=3, byrow=TRUE)
+```
+
+```{r}
+matrix(c(TRUE, TRUE, FALSE, TRUE), ncol=2)
+```
+
+```{r}
+climate <- matrix(c(temperatures , rains), byrow=TRUE, nrow=2)
+rownames(climate) <- c("Temperatures", "Rains")
+colnames(climate) <- days
+climate
+```
+
+```{r}
+dim(climate)
+```
+
+```{r}
+Winds <- c(30, 25, 22, 24, 18)
+rbind(climate, Winds)
+```
+
+```{r}
+total.climate <- rbind(climate, Winds)
+totals <- rowSums(climate)
+cbind(climate, totals)
+```
+
+```{r}
+total.climate[2, 3]
+```
+
+```{r}
+total.climate[, 4]
+```
+
+```{r}
+total.climate[1, ]
+```
+
+```{r}
+total.climate[, "Friday"]
+```
+
+```{r}
+total.climate["Rains", ]
+```
+
+```{r}
+ave.temperature <- mean(total.climate[1, ])
+ave.temperature
+```
+
+```{r}
+climate * 3
+```
+
+```{r}
+climate ^ 2
+```
+
+```{r}
+climate[2, ] / climate[1, ]
+```
+
+## 2.2.4 Factors
+
+```{r}
+sizes <- c("Small", "Big", "Big", "Medium", "Medium", "Small", "Medium", "Small", "Small")
+sizes
+```
+
+```{r}
+summary(sizes)
+```
+
+```{r}
+factor.sizes <- factor(sizes)
+factor.sizes
+```
+
+```{r}
+summary(factor.sizes)
+```
+
+```{r}
+levels(factor.sizes)
+```
+
+```{r}
+my.colors <- c("Orange", "Red", "Red", "Yellow", "Blue", "Green")
+factor.colors <- factor(my.colors)
+factor.colors
+```
+
+```{r}
+sizes2 <- c("Small", "Big", "Big", "Medium", "Medium", "Small", "Medium", "Small", "Small")
+factor.sizes2 <- factor(sizes , ordered=TRUE, levels=c("Small", "Medium", "Big"))
+factor.sizes2
+```
+
+```{r}
+survey.vector <- c("M", "F", "F", "M", "M", "F", "M", "M")
+factor.survey.vector <- factor(survey.vector)
+factor.survey.vector
+```
+
+```{r}
+summary(factor.survey.vector)
+```
+
+```{r}
+levels(factor.survey.vector) <- c("Female", "Male")
+factor.survey.vector
+```
+
+```{r}
+factor.survey.vector[1] < factor.survey.vector[2]
+```
+
+```{r}
+small <- factor.sizes2[1]
+medium <- factor.sizes2[4]
+big <- factor.sizes2[2]
+small < medium
+```
+
+```{r}
+small < big
+```
+
+```{r}
+medium > big
+```
+
+```{r}
+factor.sizes2[3] < factor.sizes2[5]
+```
+
+## 2.2.5 Data Frames
+
+```{r}
+?datasets
+library(help="datasets")
+```
+
+```{r}
+data()
+```
+
+```{r}
+? OrchardSprays
+OrchardSprays
+```
+
+```{r}
+head(OrchardSprays)
+```
+
+```{r}
+str(OrchardSprays)
+```
+
+```{r}
+name <- c("Alfonso", "Carlos", "Lluis", "Diego")
+last.name <- c("Zamora", "Quesada", "Hurtado", "Mondejar")
+second.last.name <- c("Saiz", "Gonzalez", "Gil", "Ruiz")
+age <- c(33, 32, 30, 37)
+phd <- c("math", "math", "physics", "math")
+office <- c(4, 14, 6, 8)
+from.madrid <- c(FALSE, TRUE, FALSE, TRUE)
+professors <- data.frame(name, last.name, second.last.name, age, phd, office, from.madrid)
+str(professors)
+```
+
+```{r}
+professors[2, 3]
+```
+
+```{r}
+professors[1, ]
+```
+
+```{r}
+professors[, 2]
+```
+
+```{r}
+professors[1 : 2, ]
+```
+
+```{r}
+professors$second.last.name
+```
+
+```{r}
+professors$office[3]
+```
+
+```{r}
+madrileans <- professors$from.madrid
+professors[madrileans, ]
+```
+
+```{r}
+subset(professors, subset=age < 31)
+```
+
+```{r}
+subset(professors, subset=phd == "math")
+```
+
+```{r}
+positions <- order(professors$age)
+professors[positions, ]
+```
+
+```{r}
+mydata.as.matrix <- matrix(1 : 9, nrow=3)
+mydata.as.matrix
+```
+
+```{r}
+mydata.as.data.frame <- as.data.frame(mydata.as.matrix)
+mydata.as.data.frame
+```
+
+```{r}
+mydata.as.data.frame$V1
+```
+
+```{r}
+new.list <- list(days , factor.sizes , climate)
+new.list
+```
+
+```{r}
+new.list[1]
+```
+
+```{r}
+new.list[[1]][2]
+```
+
+```{r}
+new.list[[3]][1, 3 : 4]
+```
+
+```{r}
+new.list <- list(the.days=days, the.factors=factor.sizes, the.data=climate)
+new.list
+```
+
+```{r}
+new.list$the.factors
+```
+
+```{r}
+new.list$the.data[2, 5]
+```
+
+```{r}
+new.list2 <- c(new.list , today="October 4")
+str(new.list2)
+```
+
+# 2.3 Control Structures
+
+## 2.3.1 Conditionals
+
+```{r, eval=FALSE}
+# Syntax, it does not run
+if ("condition is satisfied") {
+  "do something"
+}
+```
+
+```{r}
+x <- 3
+if (x > 0) {
+  print("Positive")
+}
+```
+
+```{r}
+x <- -5
+if(x > 0){
+  print("Positive")
+}
+```
+
+```{r, eval=FALSE}
+# Syntax, it does not run
+if ("condition is satisfied"){
+  "do something"
+} else {
+  "otherwise do something else"
+}
+```
+
+```{r}
+x <- -8
+if (x > 0) {
+  print("Positive")
+} else {
+  print("Negative")
+}
+```
+
+```{r}
+x <- 6
+if (x > 0) {
+  print("Positive")
+} else {
+  print("Negative")
+}
+```
+
+```{r}
+x <- 0
+if (x > 0) {
+  print("Positive")
+} else {
+  print("Negative")
+}
+```
+
+```{r}
+x <- 0
+if (x > 0) {
+  print("Positive")
+} else if (x < 0) {
+  print("Negative")
+} else {
+  print("Zero")
+}
+```
+
+```{r}
+x <- 9
+ifelse(x > 0, "Positive", "Negative")
+```
+
+```{r}
+(1 : 10) < 5
+```
+
+```{r}
+ifelse((1 : 10) < 5, "Fail", "Pass")
+```
+
+## 2.3.2 Loops
+
+```{r, eval=FALSE}
+# Syntax, it does not run
+for ("counter" in "vector of indices") {
+  "do something"
+}
+```
+
+```{r}
+for (i in 1 : 10) {
+  print(i)
+}
+```
+
+```{r}
+i
+```
+
+```{r}
+v <- c()
+v
+```
+
+```{r}
+s <- 0
+for (i in 1 : 10) {
+  s <- s + i
+  v[i] <- s
+}
+v
+```
+
+```{r}
+odd <- 2 * (1 : 10) - 1
+for (i in odd) {
+  print(i)
+}
+```
+
+```{r}
+for (i in c(TRUE , FALSE)) {
+print(TRUE == i)
+}
+```
+
+```{r}
+for (i in 1 : 10) {
+  if (i < 5) {
+    print("Fail")
+  } else {
+    print("Pass")
+  }
+}
+```
+
+```{r, eval=FALSE}
+# Syntax, it does not run
+while ("condition holds") {
+  "do something"
+}
+```
+
+```{r}
+i <- 0
+while (i < 10) {
+  print(c(i,"is less than 10"))
+  i <- i + 1
+}
+```
+
+```{r}
+i
+```
+
+```{r, eval=FALSE}
+# infinite loop, do not run!!
+j <- 1
+while (j < 5) {
+  print(c(j, "is less than 5"))
+}
+```
+
+# 2.4 Functions and Operators
+
+```{r}
+mean(c(2, 5, 7))
+```
+
+```{r}
+mean(matrix(1 : 4))
+```
+
+```{r}
+sum(matrix(1 : 4))
+```
+
+```{r}
+sqrt(2)
+```
+
+```{r}
+log(34)
+```
+
+```{r}
+exp(0)
+```
+
+```{r}
+cos(0)
+```
+
+```{r}
+is.logical(3 != 3)
+```
+
+```{r}
+matrix(3 : 8, nrow=3)
+```
+
+```{r}
+funtion.name <- function(argument1, argument2,...) {
+  "body function"
+}
+```
+
+```{r}
+f <- function(x) {
+  x / (1 - x) # the output is the evaluation of last line
+}
+```
+
+```{r}
+f <- function(x) x / (1 - x)
+```
+
+```{r}
+f <- function(x) {
+  return(x / (1 - x))
+}
+```
+
+```{r}
+f(2)
+```
+
+```{r}
+y <- 4
+f(y)
+```
+
+```{r}
+f(2 * y)
+```
+
+```{r}
+g <- function(x,y) {
+  x ^ 2 - y / 5
+}
+```
+
+```{r}
+g(1, 2)
+```
+
+```{r}
+g(2, 1)
+```
+
+```{r}
+exp(1 : 10)
+f(c(1, 4, 7))
+```
+
+```{r}
+funtion.name <- function(name.argument1=default.value1, name.argument2=default.value2,...) {
+  "body function"
+}
+```
+
+```{r}
+mat.vec <- function(a, b=2, flag=FALSE){
+  if (flag) {
+    matrix(1 : a, nrow=b)
+  } else {
+    1 : a
+  }
+}
+```
+
+```{r}
+mat.vec(5)
+```
+
+```{r}
+mat.vec(6, 3, TRUE)
+```
+
+```{r}
+mat.vec(flag=TRUE , a=6, b=3)
+```
+
+```{r}
+mat.vec(a=7, b=4)
+```
+
+```{r}
+mat.vec(a=7, flag=TRUE)
+```
+
+```{r}
+vector.selector <- function(v, pos=1){
+  if (is.vector(v)) {
+    return(v[pos])
+  } else {
+    stop("Variable v is not a vector")
+  }
+}
+```
+
+```{r}
+vector.selector(3 : 8)
+```
+
+```{r}
+vector.selector(c(1, 4, 5, 8, 2, 4, 3, 5), pos=6)
+```
+
+```{r}
+# Error
+# vector.selector(matrix(1 : 9))
+```
+
+```{r}
+items <- function(x) list(len=length(x),total=sum(x),
+mean=mean(x))
+```
+
+```{r}
+data <- 1 : 10
+result <- items(data)
+result
+```
+
+```{r}
+names(result)
+```
+
+```{r}
+result$len
+```
+
+```{r}
+result$tot
+```
+
+```{r}
+result$mean
+```
+
+```{r}
+log
+```
+
+```{r}
+mean
+```
+
+```{r}
+salutation <- function(x) print("Hello")
+# Note that this output does not depend on the value of x
+output <- sapply(1 : 5, salutation)
+```
+
+```{r}
+output <- sapply(1 : 5, function(x) print("Hello"))
+```
+
+```{r}
+lapply(cars ,mean)
+```
+
+```{r}
+sapply(cars , mean)
+```
+
+## 2.4.1 Exercises
+
+```{r}
+g <- function(x, y) x ^ 2 - y / 5
+```
+

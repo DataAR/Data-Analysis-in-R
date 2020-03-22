@@ -1,0 +1,839 @@
+---
+title: |
+ | Introduction to Data Analysis with R
+ | Chapter 5. Data Analysis with R
+author: Alfonso Zamora Saiz, Carlos Quesada González, Lluís Hurtado Gil and Diego Mondéjar Ruiz
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+---
+
+Each chunk represents a code window in the book. Please note that some chunks could not run properly or take a too much time to do it. The first line of these chunks is a comment, starting with the simbol `#` to clarify why is this.
+
+# 5.1 Descriptive Statistics
+
+```{r}
+library(mlbench)
+data(PimaIndiansDiabetes2)
+? PimaIndiansDiabetes2
+head(PimaIndiansDiabetes2)
+```
+
+```{r}
+attach(PimaIndiansDiabetes2)
+```
+
+## 5.1.1 Position measures
+
+```{r}
+mean(c(4, 5, 8, 2, 8, 4, 5, 9, 2, 7))
+```
+
+```{r}
+mean(mass, na.rm=TRUE)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], mean, na.rm=TRUE)
+```
+
+```{r}
+sales.per <- c(0.10, -0.05, 0.20, 0.05, -0.03)
+sales <- 1 + sales.per
+5000 * prod(sales)
+```
+
+```{r}
+5000 * (1.050151) ^ 5
+```
+
+```{r}
+5000 * (1.054) ^ 5
+```
+
+```{r}
+library(psych)
+geometric.mean(sales) - 1
+```
+
+```{r}
+23 / 10 + 23 / 30
+```
+
+```{r}
+46 / 20
+```
+
+```{r}
+speeds = c(10, 30)
+harmonic.mean(speeds, na.rm=TRUE)
+```
+
+```{r}
+46 / 15
+```
+
+```{r}
+median(1 : 7)
+```
+
+```{r}
+median(1 : 6)
+```
+
+```{r}
+median(mass , na.rm=TRUE)
+```
+
+```{r}
+mean(c(1 : 7, 30))
+```
+
+```{r}
+median(c(1 : 7, 30))
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], median, na.rm=TRUE)
+```
+
+```{r}
+library(DescTools)
+Mode(mass)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2, Mode, na.rm=TRUE)
+```
+
+```{r}
+# plot histogram
+hist(mass , col="seashell", border="black", xlab="Body mass index", main="Pima Indians Diabetes")
+# add mean
+abline(v=mean(mass, na.rm=TRUE), col="red", lwd=2)
+# add median
+abline(v=median(mass, na.rm=TRUE), col="blue", lwd=2)
+abline(v=Mode(mass), col="seagreen", lwd=2) # add mode
+legend(x="topright", c("Mean", "Median", "Mode"),
+col=c("red", "blue", "seagreen"), lwd=c(2, 2)) # legend
+```
+
+```{r}
+quantile(mass, probs=0.65, na.rm=TRUE)
+```
+
+```{r}
+quantile(mass, na.rm=TRUE)
+```
+
+```{r}
+quantile(mass, probs=seq(0, 1, 0.10), na.rm=TRUE)
+```
+
+```{r}
+percent.fun <- ecdf(mass)
+percent.fun(40)
+```
+
+```{r}
+percent.fun(median(mass , na.rm=TRUE))
+```
+
+```{r}
+summary(mass)
+```
+
+```{r}
+summary(PimaIndiansDiabetes2)
+```
+
+## 5.1.2 Dispersion measures
+
+```{r}
+IQR(mass, na.rm=TRUE)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], IQR, na.rm=TRUE)
+```
+
+```{r}
+boxplot(mass, xlab="Body mass index", col="papayawhip")
+boxplot(pressure, xlab="Systolic blood pressure", col="pink")
+```
+
+```{r}
+boxplot(mass)$out
+```
+
+```{r}
+boxplot(pressure)$out
+```
+
+```{r}
+boxplot(mass, range=3, xlab="Body mass index", col="papayawhip")
+boxplot(pressure, range=3, xlab="Systolic blood pressure", col="pink")
+```
+
+```{r}
+boxplot(mass , range=3)$out
+```
+
+```{r}
+boxplot(pressure , range=3)$out
+```
+
+```{r}
+var.p <- function(x){
+  var(x, na.rm=TRUE) * (length(x) - 1) / (length(x))
+}
+sd.p <- function(x){
+  sqrt(var.p(x))
+}
+```
+
+```{r}
+class1 <- c(5, 5, 5, 5, 5, 5, 5, 5, 5, 5)
+class2 <- c(0, 0, 0, 0, 0, 10, 10, 10, 10, 10)
+```
+
+```{r}
+var.p(class1)
+```
+
+```{r}
+var.p(class2)
+```
+
+```{r}
+sd.p(class1)
+```
+
+```{r}
+sd.p(class2)
+```
+
+```{r}
+var.p(mass)
+```
+
+```{r}
+sd.p(mass)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[, -9], sd.p)
+```
+
+```{r}
+sd.p(mass) / mean(mass , na.rm=TRUE)
+```
+
+```{r}
+sd.p(pressure) / mean(pressure , na.rm=TRUE)
+```
+
+## 5.1.3 Shape measures
+
+```{r}
+library(moments)
+```
+
+```{r}
+skewness(pressure, na.rm=TRUE)
+```
+
+```{r}
+skewness(pregnant, na.rm=TRUE)
+```
+
+```{r}
+x <- c(rep(1, 100), rep(2, 140), rep(3, 25), rep(4, 15), rep(5, 10))
+y <- c(rep(1, 100), rep(2, 140), rep(3, 30), rep(4, 20), rep(5, 15))
+skewness(x)
+```
+
+```{r}
+skewness(y)
+```
+
+```{r}
+x <- c(rep(1, 30), rep(2, 40), rep(3, 250), rep(4, 400), rep(5, 150), rep(6, 120), rep(7, 10))
+skewness(x)
+```
+
+```{r}
+kurtosis(triceps, na.rm=TRUE)
+```
+
+```{r}
+sapply(PimaIndiansDiabetes2[,-9], FUN=kurtosis, na.rm=TRUE)
+```
+
+### 5.1.4 Concentration measures
+
+```{r}
+salary1 <- c(10, 15, 20, 21, 22, 35, 35, 38, 60, 100)
+salary2 <- c(21, 22, 23, 25, 32, 38, 42, 46, 46, 50)
+```
+
+```{r}
+Gini(salary1)
+```
+
+```{r}
+Gini(salary2)
+```
+
+```{r}
+Gini(pregnant, na.rm=TRUE)
+```
+
+```{r}
+Gini(pressure, na.rm=TRUE)
+```
+
+```{r}
+plot(Lc(pregnant), col="red", lwd=2, main="Lorentz curve for pregnant", xlab="Cumulative individuals", ylab="Cumulative values")
+plot(Lc(pressure, na.rm=TRUE), col="blue", lwd=2, main="Lorentz curve for pressure", xlab="Cumulative individuals", ylab="Cumulative values")
+```
+
+```{r}
+library(ineq)
+Theil(pregnant)
+```
+
+```{r}
+Theil(pressure)
+```
+
+## 5.1.5 Exercises
+
+# 5.2 Statistical Inference
+
+## 5.2.1 Random variables
+
+```{r}
+class(mass)
+class(pregnant)
+```
+
+```{r}
+sort(unique(pregnant))
+```
+
+```{r}
+loaded <- data.frame(values=c(1, 2, 3, 4, 5, 6), probs=c(1 / 10, 1 / 10, 3 / 10, 2 / 10, 2 / 10, 1 / 10))
+library(ggplot2)
+ggplot(data=loaded , aes(x=values, y=probs)) +
+  geom_bar(stat="identity", fill="aquamarine3") +
+  ylim(c(0, 0.35))
+```
+
+```{r}
+ggplot(data=PimaIndiansDiabetes2, aes(x=mass)) +
+  geom_density() +
+  xlab("Mass") +
+  ylab("Density")
+ggplot(data=PimaIndiansDiabetes2, aes(x=mass)) +
+  stat_ecdf() +
+  xlab("Mass") +
+  ylab("Cumulative density")
+```
+
+```{r}
+pdf.density <- density(mass , na.rm=TRUE)
+```
+
+```{r}
+pdf.density$x[150]
+```
+
+```{r}
+pdf.density$y[150]
+```
+
+```{r}
+ecdf.cumul <- ecdf(mass)
+ecdf.cumul(35)
+```
+
+```{r}
+set.seed(5)
+x <- 1 : 50
+sample(x, size=10)
+```
+
+```{r}
+set.seed(5)
+sample(c("H", "T"), 25, replace=TRUE)
+```
+
+```{r}
+set.seed(5)
+sample(1 : 6, size=10, prob=c(0.1, 0.1, 0.1, 0.1, 0.1, 0.5), replace=TRUE)
+```
+
+## 5.2.2 Probability distributions
+
+```{r}
+? Distributions
+```
+
+```{r}
+dbinom(2, size=5, prob=0.2)
+```
+
+```{r}
+pbinom(2, 5, 0.2, lower.tail=TRUE)
+```
+
+```{r}
+pbinom(2, 5, 0.2, lower.tail=FALSE)
+```
+
+```{r}
+qbinom(0.95, 5, 0.2)
+```
+
+```{r}
+set.seed(5)
+rbinom(10, 5, 0.2)
+```
+
+```{r}
+values <- 0 : 5
+plot(values, dbinom(values , 5, 0.2), type="b", xlab="Values", ylab="Probabilities", main="Mass")
+plot(values, pbinom(values , 5, 0.2), type="b", xlab="Values", ylab="Probabilities", main="Cumulative")
+```
+
+```{r}
+values <- 0 : 11
+plot(values, dpois(values, 5), type="b", xlab = "Values", ylab="Probabilities", main="Mass")
+plot(ppois(values, 5), type="b", xlab = "Values", ylab="Probabilities", main="Cumulative")
+```
+
+```{r}
+pnorm(80, 70, 15) - pnorm(60, 70, 15)
+```
+
+```{r}
+x <- seq(40, 100, by=0.5)
+curve(dnorm(x, 70, 15), xlim=c(40, 100), col="blue", lwd=2, xlab="x", ylab="f(x)", main="Density function N(70,15)")
+curve(pnorm(x, 70, 15), xlim=c(40, 100), col="blue", lwd=2, xlab="x", ylab="f(x)", main="Cumulative function N(70,15)")
+```
+
+```{r}
+set.seed(1)
+sample <- rnorm(1000, 70, 15)
+hist(sample, freq=FALSE, breaks=seq(20, 130, 10), col="seashell", xlab="Heart rate", main="Histogram for simulation of N(70,15)")
+curve(dnorm(x, 70, 15), xlim=c(20, 130), col="blue", lwd=2, add=TRUE)
+```
+
+```{r}
+qqnorm(mass, main="Normal Q-Q plot for mass")
+qqline(mass, col="blue", lwd=2) # adds a reference line
+```
+
+```{r}
+qqnorm(rnorm(1000, 70, 15), main="Normal Q-Q plot for N(70,15)")
+qqline(rnorm(1000, 70, 15), col="blue", lwd=2)
+```
+
+```{r}
+m = 10000 # sample size of the final variable
+lambda = 4 # poisson parameter
+par(mfrow=c(2, 2))
+for (n in c(1, 5, 10, 100)) {
+  x <- NULL #initialization of x
+  for (i in 1:m) {
+    x <- c(x, mean(rpois(n, lambda)))
+  }
+  x.normalized <- (x-lambda)/(sqrt(lambda/n))
+  hist(x.normalized , col="seashell",
+  main=paste("Mean of", n,"Po(4)"), xlab="Value")
+}
+```
+
+```{r}
+n = 100
+m = 10000
+mu = mean(mass , na.rm=TRUE)
+sigma = sd(mass , na.rm=TRUE)
+x <- NULL
+for (i in 1:m) {
+  x <- c(x, mean(sample(na.omit(mass), n)))
+}
+y = (x-mu)/(sigma/sqrt(n))
+hist(y, col="seashell", main=paste(paste("Mean of 100",sep=" "),"mass",sep=" "), xlab="Value")
+```
+
+## 5.2.3 Confidence intervals and hypothesis tests
+
+```{r}
+mean(triceps, na.rm=TRUE)
+```
+
+```{r}
+sd(triceps, na.rm=TRUE) ^ 2
+```
+
+```{r}
+conf.level <- 0.95
+t <- qt((1 - conf.level) / 2, df=length(triceps) - 1, lower.tail = FALSE)
+sigma <- sd(triceps , na.rm=TRUE)
+mean <- mean(triceps , na.rm=TRUE)
+sd.mean <- sigma / sqrt(length(triceps) - sum(is.na(triceps)))
+interval <- c(mean - t * sd.mean, mean + t * sd.mean)
+interval
+```
+
+```{r}
+MeanCI(triceps, na.rm=TRUE, conf.level=0.95)
+```
+
+```{r}
+library(boot)
+set.seed(1)
+resampling <- boot(na.omit(triceps), function(x, i) mean(x[i]), R=10000)
+boot.ci(resampling, conf = 0.95)
+```
+
+```{r}
+VarCI(mass, na.rm=TRUE, conf.level=0.95)
+```
+
+```{r}
+t.test(pressure, mu=70, alternative="greater")
+```
+
+```{r}
+t.test(pressure, mu=72, alternative="two.sided")
+```
+
+```{r}
+t.test(pressure, mu=71.4, alternative="two.sided")
+```
+
+```{r}
+test <- t.test(pressure, mu=70, alternative="greater")
+test$p.value
+```
+
+```{r}
+t.test(insulin, glucose, mu=0, alternative="two.sided")
+```
+
+```{r}
+t.test(insulin, glucose, mu=0, alternative="less")
+```
+
+```{r}
+t.test(insulin, glucose, mu=30, alternative="two.sided")
+```
+
+```{r}
+VarTest(pressure, sigma.squared=153)
+```
+
+```{r}
+var.test(pressure, mass, ratio=3, alternative= "two.sided")
+```
+
+```{r}
+library(snpar)
+runs.test(c(1, 1, 1, 1, 1, 1, 1, 1, 0, 0))
+```
+
+```{r}
+set.seed(5)
+sample.vector <- rnorm(100000, 0, 1)
+binary.vector <- ifelse(sample.vector < 0, 0, 1)
+runs.test(binary.vector)
+```
+
+```{r}
+ks.test(glucose, pressure)
+```
+
+```{r}
+set.seed(5)
+ks.test(rpois(100, 5), rpois(200, 5))
+```
+
+```{r}
+shapiro.test(insulin)
+```
+
+```{r}
+set.seed(5)
+shapiro.test(rnorm(5000, 0, 1))
+```
+
+### 5.2.4 Exercises
+
+## 5.3 Multivariate Statistics
+
+### 5.3.1 Correlation and bivariate statistics
+
+```{r}
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=pressure)) +
+  geom_point()
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=triceps)) +
+  geom_point()
+```
+
+```{r}
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=triceps)) +
+  geom_point() +
+  geom_vline(xintercept=mean(mass, na.rm=TRUE), colour="red", size=1.2) +
+  geom_hline(yintercept=mean(triceps, na.rm=TRUE), colour="blue", size=1.2) +
+  annotate("text", label="mean of mass", angle=90, x=34, y=75, size=4, colour="red") +
+  annotate("text", label="mean of triceps", x=55, y=25, size=4, colour="blue")
+```
+
+```{r}
+cov(mass, pressure, use="pairwise.complete.obs")
+```
+
+```{r}
+cov(mass, triceps, use="pairwise.complete.obs")
+```
+
+```{r}
+cor(mass, pressure, use="pairwise.complete.obs")
+```
+
+```{r}
+cor(mass, triceps, use="pairwise.complete.obs")
+```
+
+```{r}
+cor(PimaIndiansDiabetes2[, -9], use="pairwise.complete.obs")
+```
+
+```{r}
+library(corrplot)
+corrplot(cor(PimaIndiansDiabetes2[,-9], use="pairwise.complete.obs"))
+```
+
+```{r}
+plot(PimaIndiansDiabetes2)
+```
+
+## 5.3.2 Linear Model
+
+```{r}
+model <- lm(triceps ~ mass, data=PimaIndiansDiabetes2)
+model$coefficients
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+summary(model)$r.squared
+```
+
+```{r}
+ggplot(PimaIndiansDiabetes2, aes(x=mass, y=triceps)) +
+  geom_point() +
+  geom_smooth(method="lm", se=TRUE)
+```
+
+```{r}
+predict(model, data.frame(mass=30), interval="confidence")
+```
+
+```{r}
+library(psych)
+pairs.panels(PimaIndiansDiabetes2[, -9],
+method="pearson", hist.col="seashell",
+density=TRUE , lm=TRUE)
+```
+
+## 5.3.3 Multivariable Linear Models
+
+```{r}
+model <- lm(triceps ~ mass + glucose + pressure)
+summary(model)
+```
+
+```{r}
+model <- lm(mass ~ ., data=PimaIndiansDiabetes2)
+summary(model)
+```
+
+```{r}
+contrasts(diabetes)
+```
+
+```{r}
+model <- lm(mass ~ . -glucose - pedigree - age, data=PimaIndiansDiabetes2)
+summary(model)
+```
+
+## 5.3.4 Nonlinear transformations
+
+```{r}
+linear.price <- lm(price ~ x, data=diamonds)
+summary(linear.price)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds, aes(y=price , x=x)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm") +
+  xlim(3, 11) +
+  ylim(0, 19000)
+```
+
+```{r}
+poly.price <- lm(price ~ poly(x, 2), data=diamonds)
+summary(poly.price)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds , aes(y=price , x=x)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm", formula=y ~ poly(x, 2)) +
+  xlim(3, 11) +
+  ylim(0, 19000)
+```
+
+```{r}
+linear.carat <- lm(x ~ carat , data=diamonds)
+summary(linear.carat)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds, aes(y=x, x=carat)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm")
+```
+
+```{r}
+linear.carat <- lm(x ~ log(carat), data=diamonds)
+summary(linear.carat)$adj.r.squared
+```
+
+```{r}
+ggplot(diamonds, aes(y=x, x=carat)) +
+  geom_point(alpha=.5) +
+  geom_smooth(method="lm", formula=y ~ log(x))
+```
+
+```{r}
+contingency <- table(diabetes, age)
+contingency
+```
+
+```{r}
+library(vcd)
+assocstats(contingency)
+```
+
+```{r}
+boxplot(mass ~ diabetes, data=PimaIndiansDiabetes2, ylab="Mass")
+```
+
+```{r}
+aov <- aov(mass ~ diabetes)
+summary(aov)
+```
+
+```{r}
+log.model <- glm(diabetes ~ ., data=PimaIndiansDiabetes2, family=binomial)
+summary(log.model)
+```
+
+```{r}
+predictions <- predict(log.model , type="response")
+head(predictions)
+```
+
+```{r}
+fact.predictions <- rep("neg", length(diabetes))
+fact.predictions[predictions > 0.5] <- "pos"
+table(fact.predictions , diabetes)
+```
+
+```{r}
+mean(fact.predictions == diabetes, na.rm=TRUE)
+```
+
+```{r}
+fact.predictions <- rep("neg", length(diabetes))
+fact.predictions[predictions > 0.6]="pos"
+table(fact.predictions, diabetes)
+```
+
+```{r}
+mean(fact.predictions == diabetes, na.rm=TRUE)
+```
+
+```{r}
+log.model <- glm(diabetes ~ glucose, data=PimaIndiansDiabetes2, family=binomial)
+```
+
+```{r}
+new.data <- data.frame(glucose=138, mass=35.5, pedigree=0.325)
+predict(log.model, newdata=new.data, type="response")
+```
+
+## 5.3.6 Exercises
+
+# 5.4 Data analysis of the flights database
+
+```{r, echo=FALSE}
+library(data.table)
+flights <- fread("flights.csv")
+names(flights) <- c("icao24", "callsign", "country", "last.update","last.contact", "longitude", "latitude", "altitude.baro", "ground", "velocity", "track", "vertical.rate", "sensors", "altitude.geo", "squawk", "spi", "position.source", "time")
+flights[, c("last.contact", "last.update", "sensors", "altitude.geo", "squawk", "spi", "position.source"):=NULL]
+flights[, altitude.baro:=ifelse(ground == TRUE , 0, altitude.baro)]
+flights[, ground:=NULL]
+flights[, time:=time - 1548028800]
+flights <- na.omit(flights)
+duplicated.rows <- duplicated(flights[, 1 : 5])
+flights <- flights[!duplicated.rows]
+flights <- flights[!callsign == ""]
+flights <- flights[!callsign == "0000000"]
+flights <- flights[!callsign == "00000000"]
+flights <- flights[!grepl("TEST", callsign)]
+```
+
+```{r}
+summary(flights)
+```
+
+```{r}
+library(corrplot)
+corrplot(cor(flights[, -c(1, 2, 3)], use="pairwise.complete.obs"))
+```
+
+```{r}
+library(vcd)
+assocstats(table(flights$callsign, flights$country))
+```
+
+```{r}
+model.velocity <- lm(velocity ~ altitude.baro, data=flights)
+summary(model.velocity)
+```
+
+```{r}
+model.velocity <- lm(velocity ~ longitude + latitude + altitude.baro, data=flights)
+summary(model.velocity)
+```
+
+```{r}
+model.velocity <- lm(velocity ~ altitude.baro + track, data=flights)
+summary(model.velocity)
+```
+
+```{r}
+model.vertical <- lm(vertical.rate ~ longitude + latitude + altitude.baro + velocity, data=flights)
+summary(model.vertical)
+```

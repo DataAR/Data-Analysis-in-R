@@ -1,0 +1,404 @@
+---
+title: |
+ | Introduction to Data Analysis with R
+ | Chapter 3. Data Bases in R
+author: Alfonso Zamora Saiz, Carlos Quesada González, Lluís Hurtado Gil and Diego Mondéjar Ruiz
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+---
+
+Each chunk represents a code window in the book. Please note that some chunks could not run properly or take a too much time to do it. The first line of these chunks is a comment, starting with the simbol `#` to clarify why is this.
+
+# 3.1 Data sources, importing and exporting
+
+```{r, eval=FALSE}
+# The file myfilewithdata.csv does not exist
+our.table <- read.csv("myfilewithdata.csv", header=TRUE, sep=";", dec=".")
+```
+
+```{r, eval=FALSE}
+# The table our.table does not exist
+write.csv(our.table , "filetosave.csv", col.names=FALSE, row.names=TRUE , sep=";", dec=".")
+```
+
+```{r, eval=FALSE}
+# The file ourjsonfile.json does not exist
+library(jsonlite)
+jsonastable <- as.data.frame(fromJSON("ourjsonfile.json"))
+```
+
+```{r, eval=FALSE}
+# The file file.xlsx does not exist
+library(readxl)
+data <- read_excel("file.xlsx", col_names=TRUE, col_types=c("numeric", "numeric"), sheet=2)
+```
+
+## 3.1.1 Exercises
+
+# 3.2 Data Collection
+
+## 3.2.1 Data repositories
+
+```{r}
+library(mlbench)
+data(Glass)
+```
+
+## 3.2.2 APIs
+
+```{r}
+library(jsonlite)
+```
+
+```{r}
+url <- "https://opensky-network.org/api/states/all"
+flights <- as.data.frame(fromJSON(URLencode(url)))
+```
+
+```{r}
+sport.url <- "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=4328&s=1415"
+sports <- as.data.frame(fromJSON(URLencode(sport.url)))
+```
+
+```{r}
+leagues.url <- "https://www.thesportsdb.com/api/v1/json/1/search_all_leagues.php?c=Spain"
+leagues <- as.data.frame(fromJSON(URLencode(leagues.url)))
+```
+
+```{r}
+sport.url <- "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=4335&s=1718"
+sports <- as.data.frame(fromJSON(URLencode(sport.url)))
+```
+
+```{r, eval=FALSE}
+matches.url <- "https://www.thesportsdb.com/api/v1/json/1/latestsoccer.php"
+matches <- as.data.frame(fromJSON(URLencode(matches.url)))
+```
+
+```{r, eval=FALSE}
+matches <- fromJSON(URLencode(matches.url))
+matches
+```
+
+```{r, eval=FALSE}
+# run this code while matches are being played
+live.matches <- as.data.frame(fromJSON(URLencode(matches.url))$teams$Match)
+live.matches
+```
+
+```{r, eval=FALSE}
+library(data.table)
+quandl.url <- "https://www.quandl.com/api/v3/datasets/WIKI/GOOG.csv?start_date=2015-01-01"
+fread(URLencode(quandl.url))
+```
+
+## 3.2.3 Web Scraping
+
+```{r}
+library(rvest)
+```
+
+```{r}
+nbagames <- read_html("https://www.thesportsdb.com/season.php?l=4387&s=1920")
+```
+
+```{r}
+nbagames
+```
+
+```{r}
+games <- html_nodes(nbagames,"td")
+```
+
+```{r}
+games <- html_text(html_nodes(nbagames, "td"))
+```
+
+```{r}
+games
+```
+
+```{r}
+goodreadsurl <-"https://www.goodreads.com/list/show/7.Best_Books_of_the_21st_Century"
+goodreads <- read_html(goodreadsurl)
+books <- html_text(html_nodes(goodreads, "span"))
+```
+
+```{r}
+books
+```
+
+```{r}
+goodreads <- read_html(goodreadsurl)
+books <- html_text(html_nodes(goodreads, ".bookTitle span"))
+```
+
+```{r}
+books
+```
+
+```{r}
+goodreads <- read_html(goodreadsurl)
+book <- html_text(html_nodes(goodreads, ".bookTitle span"))
+author <- html_text(html_nodes(goodreads, ".authorName span"))
+rating <- html_text(html_nodes(goodreads, ".minirating"))
+topbooks <- data.frame(book, author, rating)
+```
+
+## 3.2.4 Exercises
+
+# 3.3 Data preprocessing
+
+## 3.3.1 Data Tables
+
+```{r}
+library(data.table)
+example <- data.frame(info1 = c(1, 2), info2 = c("a", "b"))
+row.names(example) <- c("line1", "line2")
+setDT(example , keep.rownames=T)
+example
+```
+
+```{r}
+class(example)
+```
+
+```{r}
+DT.swiss <- copy(swiss)
+setDT(DT.swiss , keep.rownames=T)
+DT.swiss[order(rn)]
+```
+
+```{r}
+DT.swiss[order(Education , -Agriculture)]
+```
+
+```{r}
+DT.swiss[2 : 3, 7]
+```
+
+```{r}
+DT.swiss[, "Infant.Mortality"]
+```
+
+```{r}
+DT.swiss[, !"Fertility"]
+```
+
+```{r}
+DT.swiss[, !c("Agriculture", "Catholic")]
+```
+
+```{r}
+DT.swiss[Education == 7]
+```
+
+```{r}
+mean.values <- sapply(DT.swiss[, -1], mean)
+DT.swiss[Agriculture > mean.values[2] & Education > mean.values[4]]
+```
+
+```{r}
+DT.swiss[Fertility < 50, mean(Education)]
+```
+
+```{r}
+DT.swiss[Education < 10, length(Education)]
+```
+
+```{r}
+DT.swiss[, mean(Fertility), by=Education]
+```
+
+```{r}
+DT.swiss[order(-Education), mean(Fertility), by=Education]
+```
+
+```{r}
+DT.swiss[order(Education), .N, by=Education]
+```
+
+```{r}
+DT.swiss[order(Education), .(.N, mean(Fertility),
+mean(Catholic)), by=Education]
+```
+
+```{r}
+DT.swiss[, .N, .(Education < 15, Fertility > 60)]
+```
+
+```{r}
+setkey(DT.swiss , Education)
+```
+
+```{r}
+DT.swiss
+```
+
+```{r}
+DT.swiss[.(3)]
+```
+
+```{r}
+DT.swiss[.(c(3, 5))]
+```
+
+```{r}
+DT.swiss[.(1 : 3), !c("Examination", "Infant.Mortality")]
+```
+
+```{r}
+DT.swiss[.(5 : 8), mean(Fertility), by=Education]
+```
+
+```{r}
+DT.swiss[, c("new.col.1", "new.col.2"):=list(1 : 47, 51 : 97)]
+DT.swiss
+```
+
+```{r}
+DT.swiss[, c("new.col.1", "new.col.2")
+:=list(101 : 147, 151 : 197)]
+```
+
+```{r}
+DT.swiss[, c("new.col.1", "new.col.2"):=list(NULL , NULL)]
+```
+
+## 3.3.2 Merging
+
+```{r}
+dataset.1 <- data.table(city=c("Large", "Medium"), population=c(1000000, 250000), km2=c(20, 7))
+dataset.2 <- data.table(city=c("Small"),
+population=c(50000), km2=c(1))
+dataset.final <- rbind(dataset.1, dataset.2)
+dataset.final
+```
+
+```{r}
+dataset.1 <- data.table(city=c("Large", "Medium", "Small"), population=c(1000000, 250000, 50000))
+dataset.2 <- data.table(km2=c(20, 7, 1))
+dataset.final <- cbind(dataset.1, dataset.2)
+dataset.final
+```
+
+```{r}
+dataset.1 <- data.table(city=c("city.1", "city.2", "city.3", "city.4", "city.5", "city.6"),
+population=c(10000, 20000, 100000, 5000, 30000, 65000),
+km2=c(1, 0.5, 0.9, 2, 1.2, 3))
+dataset.2 <- data.table(city=c("city.1", "city.2", "city.3", "city.7"),
+airport=c(FALSE, FALSE, TRUE, TRUE))
+dataset.1
+```
+
+```{r}
+dataset.2
+```
+
+```{r}
+merge(dataset.1, dataset.2)
+```
+
+```{r}
+merge(dataset.1, dataset.2, all = TRUE)
+```
+
+```{r}
+merge(dataset.1, dataset.2, all.x = TRUE)
+```
+
+```{r}
+merge(dataset.1, dataset.2, all.y = TRUE)
+```
+
+## 3.3.3 Practical examples
+
+```{r}
+library(rvest)
+library(data.table)
+goodreads <- read_html(goodreadsurl)
+book <- html_text(html_nodes(goodreads , ".bookTitle span"))
+author <- html_text(html_nodes(goodreads , ".authorName span"))
+rating <- html_text(html_nodes(goodreads , ".minirating"))
+topbooks <- data.frame(book , author , rating)
+```
+
+```{r}
+topbooks$rating <- as.numeric(substr(topbooks$rating ,1,4))
+```
+
+```{r}
+library(rvest)
+library(data.table)
+nbagames <- read_html("https://www.thesportsdb.com/season.php?l=4387&s=1920")
+games <- html_text(html_nodes(nbagames , "td"))
+```
+
+```{r}
+games <- games[!games==""]
+```
+
+```{r}
+games <- games[!grepl("\n",games)]
+```
+
+```{r}
+games1920 <- as.data.table(matrix(games , ncol=4, byrow=T))
+colnames(games1920) <- c("Date","TeamA","Result","TeamB")
+```
+
+```{r}
+games1920[, tstrsplit(Result , " ")]
+```
+
+```{r}
+games1920[, c("PointsA", "PointsB"):=tstrsplit(Result , " ", keep=c(1,3))]
+games1920$Result <- NULL
+```
+
+```{r}
+library(data.table)
+flights <- fread("flights.csv")
+object.size(flights)
+```
+
+```{r}
+names(flights) <- c("icao24", "callsign", "country", "last.update","last.contact", "longitude", "latitude", "altitude.baro", "ground", "velocity", "track", "vertical.rate", "sensors", "altitude.geo", "squawk", "spi", "position.source", "time")
+```
+
+```{r}
+flights[, c("last.contact", "last.update", "sensors", "altitude.geo", "squawk", "spi", "position.source"):=NULL]
+```
+
+```{r}
+flights[, altitude.baro:=ifelse(ground == TRUE , 0, altitude.baro)]
+flights[, ground:=NULL]
+```
+
+```{r}
+flights[, time:=time - 1548028800]
+```
+
+```{r}
+flights <- na.omit(flights)
+```
+
+```{r}
+duplicated.rows <- duplicated(flights[, 1 : 5])
+flights <- flights[!duplicated.rows]
+```
+
+```{r}
+flights <- flights[!callsign == ""]
+flights <- flights[!callsign == "0000000"]
+flights <- flights[!callsign == "00000000"]
+flights <- flights[!grepl("TEST", callsign)]
+```
+
+## 3.3.4 Exercises
+
+```{r, eval=FALSE}
+fread(URLencode("https://www.quandl.com/api/v3/datasets/WIKI/GOOG.csv?start_date=2015-01-01"))
+```

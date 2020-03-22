@@ -1,0 +1,597 @@
+---
+title: |
+ | Introduction to Data Analysis with R
+ | Chapter 4. Visualization
+author: Alfonso Zamora Saiz, Carlos Quesada González, Lluís Hurtado Gil and Diego Mondéjar Ruiz
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+---
+
+Each chunk represents a code window in the book. Please note that some chunks could not run properly or take a too much time to do it. The first line of these chunks is a comment, starting with the simbol `#` to clarify why is this.
+
+# 4.1 R base graphics
+
+```{r}
+v <- 1 : 10
+plot(v)
+u <- 6 : 15
+plot(u, v)
+```
+
+```{r}
+plot(u, v, type="l", lty=3, lwd=4, cex=3, col="blue", xaxt="n", yaxt="n")
+plot(u, v, pch=4, cex=1, col=3, main="Test plot", xlab= "Variable X", ylab="Variable Y")
+plot(u, v, pch=8, type="b", cex=0.8, col=6, xlab="", ylab="", bty="n", xlim=c(0, 20))
+plot(u, v, pch=25, cex=3, col=4, bg=2)
+```
+
+```{r}
+str(iris)
+```
+
+```{r}
+plot(iris) # generates a multiple image plot
+matrix.iris <- as.matrix(iris) # forces iris as a matrix
+plot(matrix.iris) # scatter plot of the first two columns
+```
+
+```{r}
+plot(matrix.iris , pch=18, cex=1.5, col="blue", main="Sepal length and width", xlab="Sepal length", ylab="Sepal width")
+```
+
+```{r}
+plot(matrix.iris , pch=18, cex=1.5, col=iris$Species, main="Sepal length and width by species", xlab="Sepal length", ylab="Sepal width")
+```
+
+```{r}
+x <- 9 : 15 / 2
+y1 <- c(2.6, 2.8, 3.2, 3.6, 4, 4.2, 4.3)
+y2 <- y1 + 1
+y3 <- y1 + 2
+y4 <- y1 - 1
+plot(x, y1, type="p", lty=1, lwd=2, xlim=c(4, 8), ylim=c(0, 6.5), ylab="Offset")
+points(x, y2, type="l", lty=1, lwd=2)
+points(x, y3, type="b", lty=1, lwd=2)
+points(x, y4, type="h", lty=1, lwd=2)
+```
+
+```{r}
+USPersonalExpenditure
+```
+
+```{r}
+plot(USPersonalExpenditure[1, ], type="l", lwd=2, ylim=c(0, 90), ylab="", main="US Personal Expenditure")
+lines(USPersonalExpenditure[2, ], col=2, lwd=2)
+lines(USPersonalExpenditure[3, ], col=3, lwd=2)
+lines(USPersonalExpenditure[4, ], col=4, lwd=2)
+lines(USPersonalExpenditure[5, ], col=5, lwd=2)
+```
+
+```{r}
+curve(sin, from=0, to=2 * pi , lwd=2, lty=2)
+```
+
+```{r}
+supply <- function(x){x ^ 2 + 2}
+demand <- function(x){5 + x - x ^ 2}
+```
+
+```{r}
+curve(supply , from=0, to=3, ylim=c(0, 6), lwd=2, col="blue", main="Equilibrium price", xlab="Quantity", ylab="Price")
+curve(demand , add=TRUE , lwd=2, col="red")
+```
+
+```{r}
+# First part
+plot(0 : 25, rep(0, 26), pch=c(0 : 25), cex=3, yaxt="n", ylab="", xlab="", col=c(rep(1, 21), rep(2, 5)), bg=3, bty="n")
+axis(side=1, at=seq(1, 25, 1), labels=c(1:25))
+#Second part
+labels <- c("white", "black", "red", "green", "blue", "cyan", "magenta", "yellow", "grey")
+plot(0 : 8, rep(0, 9), pch=15, cex=3, yaxt="n", ylab="", xlab="", col=0:8, bty="n")
+text(0 : 8, rep(0.8, 9), labels , col=c(1, 1 : 8), cex=2)
+axis(side=1, at=seq(1, 25, 1), labels=c(1 : 25))
+#Third part
+labels <- c("6", "5", "4", "3", "2", "1")
+A <- matrix(NA, 12, 2)
+A[, 2] <- c(6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1) * 0.3
+A[, 1] <- rep(c(0.2, 1), 6)
+plot(A[1 : 2, ], type="l", lty=1, lwd=2, ylim=c(0.1, 1.9), bty="n", axes=FALSE , ylab="", xlab="")
+text(rep(0.2, 6), (1:6)*0.3, labels , cex=2)
+points(A[3 : 4, ], type="l", lty=2, lwd=2, ylim=c(0.1, 0.6))
+points(A[5 : 6, ], type="l", lty=3, lwd=2, ylim=c(0.1, 0.6))
+points(A[7 : 8, ], type="l", lty=4, lwd=2, ylim=c(0.1, 0.6))
+points(A[9 : 10, ], type="l", lty=5, lwd=2, ylim=c(0.1, 0.6))
+points(A[11 : 12, ], type="l", lty=6, lwd=2, ylim=c(0.1, 0.6))
+```
+
+## 4.1.2 More plots for univariate series
+
+```{r}
+barplot(USPersonalExpenditure[, 5], ylab="Billions of dollars", main="US Personal Expenditure in 1960", col="darkgreen")
+```
+
+```{r}
+barplot(USPersonalExpenditure, legend.text=TRUE, args.legend=c(x=2, y=150, cex=0.5))
+```
+
+```{r}
+dotchart(USPersonalExpenditure[, 1], main="US Expenditure Year 1940")
+```
+
+```{r}
+dotchart(USPersonalExpenditure, main="US expenditure. Evolution 1940-1960")
+```
+
+```{r}
+boxplot(iris$Petal.Width, main="Box plot Petal Width")
+```
+
+```{r}
+boxplot(iris$Sepal.Length ~ iris$Species, notch=TRUE, main="Box plots Sepal Length for each species")
+```
+
+```{r}
+box.sepal <- boxplot(iris$Sepal.Length ~ iris$Species , notch=TRUE)
+box.sepal
+```
+
+```{r}
+hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal Length (cm)", ylab="Frequency")
+```
+
+```{r}
+hist.sepal <- hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal Length (cm)", ylab="Frequency")
+hist.sepal
+```
+
+```{r}
+pie(hist.sepal$counts , labels = hist.sepal$mids , col=1:8, main="Sepal length distribution")
+```
+
+```{r}
+pie(USPersonalExpenditure[,1], col=rainbow(5), main="US Personal Expenditure in 1940")
+```
+
+```{r}
+plot(matrix.iris[, c(1, 3)], pch=18, cex=1.5, col=iris$Species, main="Comparison between sepal and petal length", xlab="Sepal length", ylab="Petal length")
+legend("bottomright", legend=levels(iris$Species), col=1 : 3,
+pch=18, cex=0.8, pt.cex=1.5)
+```
+
+```{r}
+curve(supply , from=0, to=3, ylim=c(0, 6), lwd=2, col="blue", main="Equilibrium price", xlab="Quantity", ylab="Price")
+curve(demand , add=TRUE , lwd=2, col="red")
+points(x=1.5, y=4.25, pch=19)
+text(x=1.5, y=4.25, labels="Equilibrium point", pos=4, font=4)
+```
+
+```{r}
+par(mfrow=c(2, 2), mar=c(3, 3, 2, 2), oma=c(0, 0, 2, 0), font=2)
+plot(matrix.iris[, c(1, 3)], pch=18, cex=1.5, col=iris$Species, main="Comparison between sepal and petal length", xlab="Sepal length", ylab="Petal length")
+legend("bottomright", legend=levels(iris$Species), col=1:3,
+pch=18, cex=0.6, pt.cex=1.5)
+boxplot(iris$Sepal.Length ~ iris$Species, notch=TRUE, main="Box plots sepal length for each species")
+hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal length (cm)", ylab="Frequency")
+pie(hist.sepal$counts , labels = hist.sepal$mids, col=1 : 8, main="Sepal length distribution")
+mtext("The sepal distribution", side=3, line=1, outer=TRUE)
+```
+
+```{r}
+lay.matrix <- matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE)
+layout(lay.matrix , widths=c(0.4, 0.6), heights=c(0.3, 0.7))
+layout.show(n=3)
+```
+
+```{r}
+lay.matrix <- matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE)
+layout(lay.matrix , widths=c(0.4, 0.6), heights=c(0.3, 0.7))
+par(mar=c(2, 2, 2, 1))
+barplot(USPersonalExpenditure[,5], ylab="Billions of dollars", main="Expenditure in 1960", col="darkgreen")
+pie(USPersonalExpenditure[,1], col=rainbow(5), main="Expenditure in 1940", radius=0.5)
+dotchart(USPersonalExpenditure , main="Evolution 1940-1960")
+mtext("Evolution US Personal Expenditure", side=3, outer=TRUE, font=3)
+```
+
+```{r}
+png("Iris -histogram.png", width=400, height=300)
+hist(iris$Sepal.Length , breaks=seq(4, 8, 0.5), col="orange", main="Histogram Sepal Length", xlab="Sepal Length (cm)", ylab="Frequency")
+dev.off()
+```
+
+## 4.1.4 Exercises
+
+```{r}
+set.seed(1)
+x <- rnorm(100, 1, 2)
+y <- 0.5 * x + rep(1, 100) + rnorm(100, 0, 0.7)
+```
+
+# 4.2 The ggplot2 library
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width))
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width)) +
+  geom_point()
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width), color="red") +
+  geom_point(aes(x=Sepal.Length, y=Petal.Length), color="blue")
+```
+
+```{r}
+geom_point(aes(x=Sepal.Length, y=Petal.Length, color="blue"))
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width, color=Species))
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width, alpha=Sepal.Length))
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width, color=Species, size=Sepal.Width))
+```
+
+```{r}
+US.frame <- as.data.frame(t(USPersonalExpenditure), row.names=F)
+US.frame <- cbind(year=c(1940, 1945, 1950, 1955, 1960), US.frame)
+ggplot(US.frame) +
+  geom_line(aes(x=year, y=`Food and Tobacco`)) +
+  geom_line(aes(x=year, y=`Household Operation`), color=2) +
+  geom_line(aes(x=year, y=`Medical and Health`), color=3) +
+  geom_line(aes(x=year, y=`Personal Care`), color=4) +
+  geom_line(aes(x=year, y=`Private Education`), color=5)
+```
+
+```{r}
+supply <- function(x){x ^ 2 + 2}
+demand <- function(x){5 + x - x ^ 2}
+values <- seq(0, 3, 0.1)
+supply.demand <- data.frame(Quantity=values , Price=supply(values), Price2=demand(values))
+ggplot(supply.demand) +
+  geom_line(aes(x=Quantity , y=Price), color=4) +
+  geom_line(aes(x=Quantity , y=Price2), color=2)
+```
+
+```{r}
+ggplot(iris) +
+  geom_point(aes(x=Petal.Length, y=Petal.Width, color=Species)) +
+  geom_vline(xintercept=2.5, lty=2) +
+  geom_hline(yintercept=0.75, lty=2)
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) +
+  geom_point() +
+  geom_abline(intercept=-0.3630755, slope=0.4157554, color=2,lty=1)
+```
+
+```{r}
+ggplot(diamonds) + geom_bar(aes(x=clarity))
+ggplot(diamonds) + geom_bar(aes(x=clarity, fill=color), width=1)
+ggplot(diamonds) + geom_col(aes(x=clarity, y=price, fill=color))
+```
+
+```{r}
+ggplot(iris) + geom_histogram(aes(x=Petal.Length))
+ggplot(iris) + geom_histogram(aes(x=Petal.Length, fill=Species), breaks=seq(0, 7, 0.2))
+```
+
+```{r}
+ggplot(iris) + geom_boxplot(aes(y=iris$Sepal.Width))
+ggplot(iris, aes(x=Species, y=Sepal.Width, fill=Species)) +
+  geom_boxplot(notch=TRUE, outlier.color=6, outlier.shape=16, outlier.size=3) +
+  geom_jitter(size=0.3, width=0.1)
+```
+
+```{r}
+min.unemp <- economics$unemploy - 1000
+max.unemp <- economics$unemploy + 1000
+ggplot(economics , aes(x=date, y=unemploy)) +
+  geom_errorbar(aes(ymin=min.unemp, ymax=max.unemp), color=3) +
+  geom_line(color=2, size=1.2)
+```
+
+```{r}
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) +
+  geom_point() +
+  geom_smooth(method=lm, level=0.999)
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width, color=Species)) +
+  geom_point() +
+  geom_smooth(method=lm, level=0.99)
+```
+
+## 4.2.3 Facets
+
+```{r}
+ggplot(diamonds, aes(x=carat, y=price)) +
+  geom_point() +
+  facet_grid(. ~ cut)
+ggplot(diamonds, aes(x=carat, y=price)) +
+  geom_point() +
+  facet_grid(cut ~ clarity)
+```
+
+```{r}
+ggplot(diamonds , aes(x=price, y=carat, color=color)) +
+  geom_point() +
+  facet_wrap(clarity ~ ., scales="free_y", ncol=4)
+```
+
+## 4.2.4 Statistics
+
+```{r}
+ggplot(iris) + stat_ecdf(aes(x=Sepal.Length, color=Species))
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  stat_ellipse(type="norm", level=0.68, linetype=2)
+```
+
+```{r}
+ggplot(data.frame(x=c(0, 2 * pi)), aes(x)) +
+  stat_function(fun=sin, lwd=3, lty=2)
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, z=Petal.Length)) + 
+  stat_summary_2d(fun="mean", binwidth=c(0.2, 0.2))
+```
+
+## 4.2.5 Customization layers
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  coord_cartesian(xlim=c(5, 7), ylim=c(2.5, 4),
+  expand=FALSE, clip="off")
+```
+
+```{r}
+ggplot(diamonds , aes(x=carat, y=price, color=color)) +
+  geom_point() +
+  coord_trans(x="log", y="log")
+```
+
+```{r}
+ggplot(diamonds, aes(x=clarity, fill=color)) +
+  geom_bar() +
+  coord_polar()
+```
+
+```{r}
+ggplot(diamonds, aes(x=factor(1), fill=clarity)) +
+  geom_bar() +
+  coord_polar(theta="y")
+```
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  labs(title="IRIS Sepals", subtitle="Setosa , Versicolor and Virginica", caption="Comparison between the sepal length and width for the iris dataset", tag="Fig. 1", x="Sepal Length", y="Sepal Width", color="Flowers")
+```
+
+```{r}
+ggplot(iris , aes(x=Sepal.Length , y=Sepal.Width , color=Species)) + 
+  geom_point() + 
+  labs(x="Sepal Length", y="Sepal Width", title="IRIS dataset") +
+  guides(color=guide_legend(title="Flowers:", title.position="left", labels=FALSE , direction="horizontal")) +   theme(legend.position="bottom")
+```
+
+```{r}
+ggsave("example_plot.png", width=14, height=11, units="cm", device="png")
+```
+
+## 4.2.6 Exercises
+
+# 4.3 Package `plotly`
+
+```{r}
+library(plotly)
+```
+
+## 4.3.1 Conversion of `ggplot2` plots
+
+```{r}
+iris.ggplot <- ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point() +
+  guides(color=guide_legend(title="Flowers:"))
+ggplotly(iris.ggplot)
+iris.ggplot <- ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species, size=Petal.Width)) +
+  geom_point()
+ggplotly(iris.ggplot)
+```
+
+## 4.3.2 Creating plots with `plotly`
+
+```{r}
+plot_ly(iris, x=~Sepal.Length, y=~Petal.Width, z=~Sepal.Width) %>%
+  add_markers(color=~Petal.Length, symbol=~Species, symbols=~c(15, 16, 18))
+```
+
+## 4.3.3 Exercises
+
+```{r}
+LifeCycleSavings$Country <- rownames(LifeCycleSavings)
+```
+
+# 4.4 Package `leaflet`
+
+## 4.4.1 Maps and coordinates
+
+```{r}
+library(leaflet)
+```
+
+```{r}
+world.map <- leaflet() %>% addTiles()
+world.map
+```
+
+```{r}
+leaflet() %>% addProviderTiles("MtbMap")
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=34.04302, lng=-118.26725, zoom=16)
+```
+
+```{r}
+LA.lat <- 34.04302
+LA.lng <- -118.26725
+leaflet() %>%
+  addTiles() %>%
+  fitBounds(lat1=LA.lat-0.1, lat2=LA.lat+0.1, lng1=LA.lng-0.1, lng2=LA.lng+0.1)
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=LA.lat, lng=LA.lng, zoom=16) %>%
+  addMarkers(lat=LA.lat, lng=LA.lng, popup="Staples Center")
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=LA.lat, lng=LA.lng , zoom=16) %>%
+  addCircles(lat=LA.lat, lng=LA.lng , radius=50, color="green", stroke=TRUE, weight=5, fillOpacity=0.2, label="Staples Center")
+```
+
+## 4.4.2 Google Maps Platform
+
+```{r results="hide"}
+library(ggmap)
+register_google("w45I3C12h554i216N4s029m4E2i23K4I90N-356s")
+```
+
+```{r}
+places.LA <- c("Staples Center", "Walt Disney Concert Hall", "University of Southern California", "Natural History Museum of Los Angeles", "Dodger Stadium", "Dolby Theather Hollywood", "Los Angeles Memorial Coliseum", "Los Angeles International Airport", "Dorothy Chandler Pavillion", "Cathedral of Our Lady of Los Angeles", "Los Angeles City Hall", "Griffith Observatory")
+```
+
+```{r, eval=FALSE}
+# fake key
+places.LA.goo <- geocode(places.LA, output="more", source="google")
+```
+
+```{r, eval=FALSE}
+# fake key
+places.LA.goo$name <- places.LA
+leaflet(places.LA.goo) %>%
+  addTiles() %>%
+  setView(lat=LA.lat, lng=LA.lng , zoom=11) %>%
+  addMarkers(lng=~lon, lat=~lat , popup=~name)
+```
+
+```{r, eval=FALSE}
+# fake key
+center.places.LA <- places.LA[c(2, 9, 10, 11)]
+center.places.LA.goo <- geocode(center.places.LA, output="more", source="google")
+center.places.LA.goo$name <- center.places.LA
+leaflet(center.places.LA.goo) %>%
+  addTiles() %>%
+  setView(lat=LA.lat+0.012, lng=LA.lng+0.02, zoom=15) %>%
+  addPolygons(lng=~lon , lat=~lat)
+```
+
+```{r}
+name <- c("Los Angeles", "Glendale", "Thousand Oaks", "Calabasas", "Santa Monica", "Malibu", "Inglewood", "Burbank", "Pasadena", "Newport Beach", "Santa Catalina Island", "Beverly Hills", "West Hollywood", "Palos Verdes States", "Lakewood", "Anaheim", "Fullerton", "Santa Ana", "Santa Clarita", "Venice")
+population <- c(3792621, 203054, 128995, 24202, 92306, 12877, 110598, 104834, 142647, 86160, 4096, 34484, 37080, 13544, 154958, 352497, 140392, 334136, 210888, 261905)
+shire <- c("City", "North", "East", "East", "East", "East", "South", "North", "North", "West", "South", "East", "East", "South", "South", "West", "West", "West", "North", "East")
+towns <- as.data.frame(cbind(name , population , shire))
+head(towns)
+```
+
+```{r, eval=FALSE}
+# fake key
+towns.goo <- geocode(as.character(towns$name), output="more", source="google")
+```
+
+```{r, eval=FALSE}
+# fake key
+towns.goo$name <- name
+towns.goo$population <- population
+towns.goo$col <- c(1, 2, 3, 3, 3, 3, 4, 2, 2, 5, 4, 3, 3, 4, 4, 5, 5, 5, 2, 3)
+pal <- colorNumeric(c("yellow", "red", "darkgreen", "blue", "orange"), 1 : 5)
+towns.goo$opa <- c(0.1, rep(0.6, 19))
+```
+
+```{r, eval=FALSE}
+# fake key
+leaflet() %>%
+  addTiles() %>%
+  setView(lat=LA.lat-0.2, lng=LA.lng , zoom=8) %>%
+  addCircles(lng=towns.goo$lon, lat=towns.goo$lat, radius=towns.goo$population / 50, color=pal(towns.goo$col), stroke=FALSE, fillOpacity=towns.goo$opa, popup=towns.goo$name, label=as.character(towns.goo$population))
+```
+
+## 4.4.3 Exercises
+
+# 4.5 Visualization of the `flights` dataset
+
+```{r, echo=FALSE}
+library(data.table)
+flights <- fread("flights.csv")
+names(flights) <- c("icao24", "callsign", "country", "last.update","last.contact", "longitude", "latitude", "altitude.baro", "ground", "velocity", "track", "vertical.rate", "sensors", "altitude.geo", "squawk", "spi", "position.source", "time")
+flights[, c("last.contact", "last.update", "sensors", "altitude.geo", "squawk", "spi", "position.source"):=NULL]
+flights[, altitude.baro:=ifelse(ground == TRUE , 0, altitude.baro)]
+flights[, ground:=NULL]
+flights[, time:=time - 1548028800]
+flights <- na.omit(flights)
+duplicated.rows <- duplicated(flights[, 1 : 5])
+flights <- flights[!duplicated.rows]
+flights <- flights[!callsign == ""]
+flights <- flights[!callsign == "0000000"]
+flights <- flights[!callsign == "00000000"]
+flights <- flights[!grepl("TEST", callsign)]
+```
+
+```{r}
+flight <- flights[callsign == "IBE0730"]
+plot(as.POSIXlt(flight$time, origin="2019-01-21"), flight$altitude.baro, type="o", pch=16, xlab="Time", ylab="Altitude", main="IBE0730 Flight Altitude")
+```
+
+```{r}
+plot(as.POSIXlt(flight$time[5 : 13], origin="2019-01-21"), flight$altitude.baro[5 : 13], type="l", col=2, xlab="Time", ylab="Altitude", main="IBE0730 Flight Altitude")
+```
+
+```{r}
+ggplot(flights) +
+  geom_histogram(aes(x=altitude.baro), fill="DarkGreen", color="black")
+ggplot(flights) +
+  geom_boxplot(aes(y=velocity , color=country)) +
+  theme(legend.position="none")
+```
+
+```{r}
+ggplot(flights) +
+  geom_point(aes(x=longitude , y=latitude))
+```
+
+```{r, eval=FALSE}
+# take a while to run
+leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng=flights$longitude, lat=flights$latitude)
+```
+
+```{r}
+library(rworldmap)
+newmap <- getMap()
+plot(newmap)
+points(flights$longitude, flights$latitude, col="blue", pch=16, cex=.6)
+```
+
